@@ -1,0 +1,10 @@
+<h2><%= creator.name %></h2>
+<a href="/creators/<%= creator.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm',
+            { url: `/creators/${creator.id}` }) %>
+<% if (videosByCreator.length > 0) { %>
+  <h2>Videos By Creator</h2>
+  <% videosByCreator.forEach(video => { %>
+    <img height="150" width="100" src="<%= video.thumbnailPath %>">
+  <% }) %>
+<% } %>

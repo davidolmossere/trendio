@@ -1,0 +1,22 @@
+<h2>Search Creators</h2>
+<form action="/creators" method="GET">
+    <label>Name</label>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit">Search</button>
+</form>
+<br>
+<table>
+    <% creators.forEach(creator => { %>
+    <tr>
+        <td><%= creator.name %></td>
+        <td><%= creator.createdAt.toISOString().split('T')[0] %></td>
+        <td><a href="/creators/<%= creator.id %>">View</a></td>
+        <td><a href="/creators/<%= creator.id %>/edit">Edit</a></td>
+        <td>
+            <%- include('../partials/deleteForm', 
+                { url: `/creators/${creator.id}` }) %>
+        </td>
+    </tr>
+    <% }); %>
+</table>
+

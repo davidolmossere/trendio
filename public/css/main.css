@@ -1,0 +1,19 @@
+@import 'shared/variables.css';
+@import 'shared/header.css';
+
+:root {
+    font-family: arial, sans-serif;
+    font-size: 16px;
+    color: var(--color-font);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body {
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto 3rem;
+}

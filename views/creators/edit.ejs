@@ -1,0 +1,6 @@
+<h2>Edit creator</h2>
+<form action="/creators/<%= creator.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+    <a href="/creators/<%= creator.id %>">Cancel</a>
+    <button type="submit">Update</button>
+</form>

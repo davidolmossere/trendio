@@ -1,0 +1,26 @@
+.header-logo {
+    text-decoration: none;
+}
+.header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5em;
+}
+.header-nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.header-nav li {
+    list-style: none;
+}
+.header-nav li a {
+    text-decoration: none;
+    padding: 1em;
+    font-weight: bold;
+}
+.header-nav li a:hover {
+    color: #444;
+}

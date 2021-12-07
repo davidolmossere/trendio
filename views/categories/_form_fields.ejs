@@ -1,0 +1,9 @@
+<div>
+<label>Name</label>
+<input type="text" name="name" value="<%= category.name %>">
+</div>
+<div>
+    <label>Creation date</label>
+    <input type="date" name="createdAt"
+          value="<%= category.createdAt == null ? '' : category.createdAt.toISOString().split('T')[0] %>">
+  </div>

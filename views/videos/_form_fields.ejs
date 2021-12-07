@@ -1,2 +1,50 @@
-<label>Name</label>
-<input type="text" name="name" value="<%= video.name %>">
+<div>
+  <label>Set Title</label>
+  <input type="text" name="setTitle" value="<%= video.setTitle %>">
+</div>
+<div>
+  <label>Description</label>
+  <textarea name="description"><%= video.description %></textarea>
+</div>
+<div>
+  <label>Creation date</label>
+  <input type="date" name="createdAt"
+    value="<%= video.createdAt == null ? '' : video.createdAt.toISOString().split('T')[0] %>">
+</div>
+<div>
+<label>Visibility</label>
+</div>
+<div>
+<label>Position</label>
+</div>
+<div>
+<label>Products</label>
+</div>
+<div>
+  <label>Thumbnail</label>
+  <input type="file" name="thumbnailName">
+</div>
+<div>
+  <label>Category</label>
+  <select name="category">
+  <% categories.forEach(category => { %>
+    <% if (category.name === video.category) { %>
+      <option selected label="<%= category.name %>" value="<%= category.name %>">
+    <% } else { %>
+      <option label="<%= category.name %>" value="<%= category.name %>">
+    <% } %>
+  <% }) %>
+  </select>
+</div>
+<div>
+  <label>Creator</label>
+  <select name="creator">
+  <% creators.forEach(creator => { %>
+    <% if (creator.id === video.creator) { %>
+      <option selected label="<%= creator.name %>" value="<%= creator.id %>">
+    <% } else { %>
+      <option label="<%= creator.name %>" value="<%= creator.id %>">
+    <% } %>
+  <% }) %>
+  </select>
+</div>
