@@ -54,8 +54,8 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
     })
     try {
         const newVideo = await video.save()
-        // res.redirect(`videos/${newVideo.id}`)
-        res.redirect(`videos`)
+        res.redirect(`videos/${newVideo.id}`)
+
     } catch {
         if (video.thumbnailName != null) {
             removeVideoThumbnail(video.thumbnailName)
@@ -64,12 +64,83 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
     }
 })
 
+// Show Video Route
+router.get('/:id', async (req, res) => {
+    try {
+        const video = await Video.findById(req.params.id).populate('creator').exec()
+        res.render('videos/show', {video: video})
+    } catch {
+        res.redirect('/')
+    }
+})
+
+// Edit Video Route
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const video = await Video.findById(req.params.id)
+        renderEditPage(res, video)
+    } catch {
+        res.redirect('/')
+    }
+})
+
+// Update Video Route
+router.put('/:id', async (req, res) => {
+    let video
+    try {
+        video = await Video.findById(req.params.id)
+        video.setTitle = req.body.setTitle
+        video.creator = req.body.creator
+        video.category = req.body.category
+        video.createdAt = new Date(req.body.createdAt)
+        video.description = req.body.description
+        // if (req.body.thumbnailName != null && req.body.thumbnailName !=='' ) {
+        //     saveCover(book, req/body.cover)
+        // }
+        await video.save()
+        res.redirect(`/videos/${video.id}`)
+    } catch (err) {
+        console.log(err)
+        if (video != null) {
+            renderEditPage(res, video, true)
+        } else {
+            res.redirect('/')
+        }
+    }
+})
+
+// Delete Video Route
+router.delete('/:id', async (req, res) => {
+    let video
+    try {
+        video = await Video.findById(req.params.id)
+        await video.remove()
+        res.redirect('/videos')
+    } catch {
+        if (video != null) {
+            res.render('videos/show', {
+                video: video,
+                errorMessage: 'Could not remove video'
+            })
+        } else {
+            res.redirect('/')
+        }
+    }
+})
 function removeVideoThumbnail(fileName){
     fs.unlink(path.join(uploadPath, fileName), err => {
         if (err) console.log(err)
     })
 }
 async function renderNewPage(res, video, hasError = false) {
+    renderFormPage(res, video, 'new', hasError)
+}
+
+async function renderEditPage(res, video, hasError = false) {
+    renderFormPage(res, video, 'edit', hasError)
+}
+
+async function renderFormPage(res, video, form, hasError = false) {
     try {
         const creators = await Creator.find({})
         const categories = await Category.find({})
@@ -78,10 +149,17 @@ async function renderNewPage(res, video, hasError = false) {
             categories: categories,
             video: video
         }
-        if (hasError) params.errorMessage = 'Error Creating this fucking Video'
-        res.render('videos/new', params)
+        if (hasError) {
+            if (form === 'edit') {
+              params.errorMessage = 'Error Updating Book'
+            } else {
+              params.errorMessage = 'Error Creating Book'
+            }
+        }
+        res.render(`videos/${form}`, params)
     } catch {
       res.redirect('/videos')
     }
 }
+
 module.exports = router

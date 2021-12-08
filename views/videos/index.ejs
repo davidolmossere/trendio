@@ -6,5 +6,7 @@
 </form>
 <br>
 <% videos.forEach(video => { %>
-    <div><%= video.name %></div>
+    <a href="/videos/<%= video.id %>">
+        <div><%= video.setTitle %></div>
+    </a>
 <% }); %>

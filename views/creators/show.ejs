@@ -5,6 +5,8 @@
 <% if (videosByCreator.length > 0) { %>
   <h2>Videos By Creator</h2>
   <% videosByCreator.forEach(video => { %>
-    <img height="150" width="100" src="<%= video.thumbnailPath %>">
+    <a href="/videos/<%= video.id %>">
+      <img height="150" width="100" src="<%= video.thumbnailPath %>">
+    </a>
   <% }) %>
 <% } %>

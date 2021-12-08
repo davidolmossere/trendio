@@ -1,0 +1,6 @@
+<h2>Edit video</h2>
+<form action="/videos/<%= video.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+    <a href="/videos">Cancel</a>
+    <button type="submit">Update</button>
+</form>

@@ -17,7 +17,7 @@ creatorSchema.pre('remove', function(next) {
     Video.find({ creator: this.id }, (err, videos) => {
         if (err) {
             next(err)
-        } else if (books.length > 0) {
+        } else if (videos.length > 0) {
             next(new Error('This creator has videos still'))
         } else {
             next()

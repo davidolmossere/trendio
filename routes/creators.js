@@ -45,12 +45,12 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const creator = await Creator.findById(req.params.id)
-        const videos = await Book.findById({creator: creator.id}).limit(6).exec
+        const videos = await Video.find({ creator: creator.id }).limit(6).exec()
         res.render(`creators/show`, {
             creator: creator,
             videosByCreator: videos
         })
-    } catch {
+    } catch (err) {
         res.redirect('/')
     }
 })
@@ -59,8 +59,7 @@ router.get('/:id/edit', async (req, res) => {
     try {
         const creator = await Creator.findById(req.params.id)
         res.render('creators/edit', { creator: creator })
-    }
-    catch {
+    } catch {
         res.redirect('/creators')
     }
 })
