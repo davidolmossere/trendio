@@ -1,6 +1,10 @@
 <h2>Edit creator</h2>
-<form action="/creators/<%= creator.id %>?_method=PUT" method="POST">
-    <%- include('_form_fields') %>
-    <a href="/creators/<%= creator.id %>">Cancel</a>
-    <button type="submit">Update</button>
-</form>
+<div class="content-block">
+    <form action="/creators/<%= creator.id %>?_method=PUT" method="POST">
+        <%- include('_form_fields') %>
+        <div class="form-row form-row-end btn-row">
+            <a class="btn btn-secondary" href="/creators/">Cancel</a>
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>

@@ -9,7 +9,10 @@ router.get('/', async (req, res) => {
     } catch {
       videos = []
     }
-    res.render('index', { videos: videos })
+    res.render('index', { 
+      layout: 'layouts/public-layout',
+      videos: videos 
+    })
 })
 
 module.exports = router

@@ -1,50 +1,72 @@
-<div>
-  <label>Set Title</label>
-  <input type="text" name="setTitle" value="<%= video.setTitle %>">
+<div class="form-row">
+  <div class="form-item">
+    <label>Set Title</label>
+    <input type="text" name="setTitle" value="<%= video.setTitle %>">
+  </div>
+  <div class="form-item">
+    <label>Visibility</label>
+    <label class="switch">
+      <input type="checkbox" name="visibility">
+      <span class="slider"></span>
+    </label>
+  </div>  
 </div>
-<div>
-  <label>Description</label>
-  <textarea name="description"><%= video.description %></textarea>
+<div class="form-row">
+  <div class="form-item">
+    <label>Creator</label>
+    <select name="creator">
+    <% creators.forEach(creator => { %>
+      <% if (creator.id === video.creator) { %>
+        <option selected label="<%= creator.name %>" value="<%= creator.id %>">
+      <% } else { %>
+        <option label="<%= creator.name %>" value="<%= creator.id %>">
+      <% } %>
+    <% }) %>
+    </select>
+  </div>
+  <div class="form-item">
+    <label>Category</label>
+    <select name="category">
+    <% categories.forEach(category => { %>
+      <% if (category.id === video.category) { %>
+        <option selected label="<%= category.name %>" value="<%= category.id %>">
+      <% } else { %>
+        <option label="<%= category.name %>" value="<%= category.id %>">
+      <% } %>
+    <% }) %>
+    </select>
+  </div>
+  <div class="form-item">
+    <label>Creation date</label>
+    <input type="date" name="createdAt"
+      value="<%= video.createdAt == null ? '' : video.createdAt.toISOString().split('T')[0] %>">
+  </div>
+  <div class="form-item">
+    <label>Position</label>
+    <input type="number" name="position">
+  </div>
 </div>
-<div>
-  <label>Creation date</label>
-  <input type="date" name="createdAt"
-    value="<%= video.createdAt == null ? '' : video.createdAt.toISOString().split('T')[0] %>">
+<div class="form-row">
+  <div class="form-item">
+    <label>Video URL</label>
+    <input type="text" name="videoUrl">
+  </div>
+  <div class="form-item">
+    <label>Video File Name</label>
+    <input type="text" name="videoFileName">
+  </div>
+  <div class="form-item">
+    <label>Thumbnail</label>
+    <input type="file" name="thumbnailName">
+  </div>
 </div>
-<div>
-<label>Visibility</label>
+<div class="form-row">
+  <div class="form-item">
+    <label>Description</label>
+    <textarea name="description"><%= video.description %></textarea>
+  </div>
+  <div class="form-item">
+    <label>Products</label>
+  </div>
 </div>
-<div>
-<label>Position</label>
-</div>
-<div>
-<label>Products</label>
-</div>
-<div>
-  <label>Thumbnail</label>
-  <input type="file" name="thumbnailName">
-</div>
-<div>
-  <label>Category</label>
-  <select name="category">
-  <% categories.forEach(category => { %>
-    <% if (category.name === video.category) { %>
-      <option selected label="<%= category.name %>" value="<%= category.name %>">
-    <% } else { %>
-      <option label="<%= category.name %>" value="<%= category.name %>">
-    <% } %>
-  <% }) %>
-  </select>
-</div>
-<div>
-  <label>Creator</label>
-  <select name="creator">
-  <% creators.forEach(creator => { %>
-    <% if (creator.id === video.creator) { %>
-      <option selected label="<%= creator.name %>" value="<%= creator.id %>">
-    <% } else { %>
-      <option label="<%= creator.name %>" value="<%= creator.id %>">
-    <% } %>
-  <% }) %>
-  </select>
-</div>
+

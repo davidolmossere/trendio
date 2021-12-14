@@ -10,19 +10,15 @@ const videoSchema = new mongoose.Schema({
     },
     description: {
         type: String
-    },    
-    category: {
-        type: String
-        //required: true
-    },    
+    },
     createdAt: {
         type: Date,
         required: true,
         default: Date.now
     },
     visibility: {
-        type: Boolean
-        //default: true
+        type: Boolean,
+        default: true
     },
     position: {
         type: Number
@@ -33,10 +29,18 @@ const videoSchema = new mongoose.Schema({
     thumbnailName: {
         type: String
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Category'
+    },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Creator'
+    },
+    videoUrl: {
+        type: String
     }
 })
 

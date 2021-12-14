@@ -1,6 +1,10 @@
 <h2>New category</h2>
-<form action="/categories" method="POST">
-    <%- include('_form_fields') %>
-    <a href="/categories">Cancel</a>
-    <button type="submit">Create</button>
-</form>
+<div class="content-block">
+    <form action="/categories" method="POST">
+        <%- include('_form_fields') %>
+        <div class="form-row form-row-end btn-row">
+            <a class="btn btn-secondary" href="/categories">Cancel</a>
+            <button class="btn btn-primary" type="submit">Create</button>
+        </div>
+    </form>
+</div>

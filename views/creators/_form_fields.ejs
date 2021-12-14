@@ -1,9 +1,11 @@
-<div>
-    <label>Name</label>
-    <input type="text" name="name" value="<%= creator.name %>">
-</div>
-<div>
-    <label>Creation date</label>
-    <input type="date" name="createdAt"
+<div class="form-row">
+    <div class="form-item">
+        <label>Name</label>
+        <input type="text" name="name" value="<%= creator.name %>">
+    </div>
+    <div class="form-item">
+        <label>Creation date</label>
+        <input type="date" name="createdAt"
           value="<%= creator.createdAt == null ? '' : creator.createdAt.toISOString().split('T')[0] %>">
   </div>
+</div>

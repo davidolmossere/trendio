@@ -1,5 +1,10 @@
 .header-logo {
     text-decoration: none;
+    height: 48px;
+    margin-left: 1em;
+}
+.header-logo img {
+    max-height: 100%;
 }
 .header-nav {
     display: flex;

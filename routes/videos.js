@@ -85,8 +85,9 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 // Update Video Route
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
     let video
+    const fileName = req.file != null ? req.file.filename : null 
     try {
         video = await Video.findById(req.params.id)
         video.setTitle = req.body.setTitle
@@ -94,9 +95,9 @@ router.put('/:id', async (req, res) => {
         video.category = req.body.category
         video.createdAt = new Date(req.body.createdAt)
         video.description = req.body.description
-        // if (req.body.thumbnailName != null && req.body.thumbnailName !=='' ) {
-        //     saveCover(book, req/body.cover)
-        // }
+        if (fileName != null && fileName !=='' ) {
+            video.thumbnailName = fileName
+        }
         await video.save()
         res.redirect(`/videos/${video.id}`)
     } catch (err) {

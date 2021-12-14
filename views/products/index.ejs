@@ -1,0 +1,72 @@
+<div class="content-header-block">
+    <h2>Products</h2>
+    <form action="/products" method="GET">
+        <div class="form-row form-row-bundle">
+            <div class="form-item">
+                <input type="text" placeholder="enter a product name" name="name" value="<%= searchOptions.name %>">
+            </div>
+            <button class="btn btn-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+<div class="content-block">
+    <table>
+        <thead>
+            <tr>
+                <th class="full-cell">&nbsp;</th>
+                <th class="left-align">Name</th>
+                <th>Created</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Deal</th>
+                <th>Visible</th>
+                <th>Position</th>
+                <th>Prod URL</th>
+                <th>edit</th>
+                <th>view</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
+                <tr>
+                    <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="<%= product.thumbnailPath %>" /></td>
+                    <td class="left-align"><%= product.prodTitle  %></td>
+                    <td><%= product.createdAt.toISOString().split('T')[0] %></td>
+                    <td><% categories.forEach(category => { %>
+                        <% if (category.id == product.category) { %>
+                            <%= category.name %>
+                          <% } %>
+                    <% }) %>
+                    </td>
+                    <td><%= product.brand ? product.brand : '-' %></td>
+                    <td><%= product.price ? product.price : '-' %></td>
+                    <td><% deals.forEach(deal => { %>
+                        <% if (deal.id == product.deal) { %>
+                            <%= deal.name %>
+                        <% } %>
+                    <% }) %>
+                    </td>
+                    <td><% if (product.visibility) { %>
+                        <i class="fas fa-check"></i>
+                        <% } %>
+                    </td>
+                    <td><%= product.position ? product.position : '-' %></td>
+                    <td>
+                        <% if (product.productUrl != null && product.productUrl !='' ) { %>
+                            <a target="_blank" href="<%= product.productUrl %>" title="<%= product.productUrl %>"><i class="fas fa-external-link-alt"></i></a>
+                            <% } else { %>
+                            -
+                        <% } %>
+                    </td>
+                    <td><a href="/products/<%= product.id %>/edit"><i class="far fa-edit"></i></a></td>
+                    <td><a href="/products/<%= product.id %>"><i class="far fa-eye"></i></a></td>
+                </tr>
+            <% }); %>
+    </table>
+</div>
+<div class="new-item">
+    <a href="/products/new">
+        <i class="fas fa-plus-circle"></i> add a product
+    </a>
+</div>

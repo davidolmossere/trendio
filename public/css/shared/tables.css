@@ -1,0 +1,32 @@
+:root {
+    --color-row-even: #F8F8F8;
+    --color-row-hover: #EEE;
+    --color-line: #CCC;
+}
+.full-cell {
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+}
+th {
+    font-weight: normal;
+    padding: 1em .3em;
+    font-size:.9em;
+    text-align: center;
+}
+td {
+    padding: 0 .3em;
+    text-align: center;
+}
+thead {
+    border-bottom: 1px dotted var(--color-line);
+}
+tbody tr:nth-child(2n) {
+    background-color: var(--color-row-even);
+}
+tbody tr:hover {
+    background-color: var(--color-row-hover);
+}

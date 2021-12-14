@@ -1,0 +1,126 @@
+<div class="form-row">
+  <div class="form-item">
+    <label>Product Title</label>
+    <input type="text" name="prodTitle" value="<%= product.prodTitle %>">
+  </div>
+  <div class="form-item">
+    <label>Brand</label>
+    <input type="text" name="brand" value="<%= product.brand %>">
+  </div>
+  <div class="form-item">
+    <label class="light">SKU</label>
+    <input type="text" name="sku" value="<%= product.sku %>">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label>Category</label>
+    <select name="category">
+      <option label="None" value="">
+        <% categories.forEach(category => { %>
+      <% if (category.id === product.category) { %>
+        <option selected label="<%= category.name %>" value="<%= category.id %>">
+      <% } else { %>
+        <option label="<%= category.name %>" value="<%= category.id %>">
+      <% } %>
+    <% }) %>
+    </select>
+  </div>
+  <div class="form-item">
+    <label>Creation date</label>
+    <input type="date" name="createdAt"
+      value="<%= product.createdAt == null ? '' : product.createdAt.toISOString().split('T')[0] %>">
+  </div>
+  <div class="form-item">
+    <label>Position</label>
+    <input type="number" name="position" value="<%= product.position %>">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label>Price</label>
+    <input type="number" step="0.01" name="price" value="<%= product.price %>">
+  </div>
+  <div class="form-item">
+    <label>Deal</label>
+    <select name="deal">
+      <option label="None" value=""></option>
+      <% deals.forEach(deal => { %>
+        <% if (deal.id === product.deal) { %>
+          <option selected label="<%= deal.name %>" value="<%= deal.id %>">
+        <% } else { %>
+          <option label="<%= deal.name %>" value="<%= deal.id %>">
+        <% } %>
+    <% }) %>    
+    </select>
+  </div>
+  <div class="form-item">
+    <label class="light">Quantity</label>
+    <input type="number" name="qty" value="<%= product.qty %>">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label>Product Image Name</label>
+    <input type="file" name="thumbnailName" value="<%= product.thumbnailNamePath %>">
+  </div>
+  <div class="form-item">
+    <label>Product URL</label>
+    <input type="text" name="productUrl" value="<%= product.productUrl %>">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label>Size</label>
+    <input type="text" name="size" value="<%= product.size %>">
+  </div>
+  <div class="form-item">
+    <label class="light">Weight</label>
+    <input type="number" name="weight" value="<%= product.weight %>">
+  </div>
+  <div class="form-item">
+    <label class="light">Rating</label>
+    <input type="number" step="0.1" max="5" name="rating" value="<%= product.rating %>">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label>Description</label>
+    <textarea name="description"><%= product.description %></textarea>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label class="light">Launch date</label>
+    <input type="date" name="prodLaunchDate"
+      value="<%= product.prodLaunchDate == null ? '' : product.prodLaunchDate.toISOString().split('T')[0] %>">
+  </div>
+  <div class="form-item">
+    <label class="light">Stock status</label>
+    <label class="switch">
+      <input type="checkbox" name="stockStatus" <%= product.stockStatus? 'checked' : '' %>>
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="form-item">
+    <label class="light">Visibility</label>
+    <label class="switch">
+      <input type="checkbox" name="visibility" <%= product.visibility? 'checked' : '' %>>
+      <span class="slider"></span>
+    </label>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-item">
+    <label class="light">Made in</label>
+    <input type="text" name="madeIn" value="<%= product.madeIn %>">
+  </div>
+  <div class="form-item">
+    <label class="light">Shade</label>
+    <input type="text" name="shade" value="<%= product.shade %>">
+  </div>
+  <div class="form-item">
+    <label class="light">Supplier</label>
+    <input type="text" name="supplier" value="<%= product.supplier %>">
+  </div>
+</div>

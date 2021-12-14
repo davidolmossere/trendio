@@ -1,10 +1,31 @@
-<h2>Search Categories</h2>
-<form action="/categories" method="GET">
-    <label>Name</label>
-    <input type="text" name="name" value="<%= searchOptions.name %>">
-    <button type="submit">Search</button>
-</form>
-<br>
-<% categories.forEach(category => { %>
-    <div><%= category.name %></div>
-<% }); %>
+<div class="content-header-block">
+    <h2>Categories</h2>
+    <form action="/categories" method="GET">
+        <div class="form-row form-row-bundle">
+            <div class="form-item">
+                <input type="text" placeholder="enter a category name" name="name" value="<%= searchOptions.name %>">
+            </div>
+            <button class="btn btn-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+<div class="content-block">
+    <% categories.forEach(category => { %>
+    <div class="content-block-row">
+        <div>
+            <div class="content-block-main-label"><%= category.name %></div>
+            <div class="date-caption"><%= category.createdAt.toISOString().split('T')[0] %></div>
+        </div>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/categories/<%= category.id %>/edit">edit</a>
+            <%- include('../partials/deleteForm', 
+                    { url: `/categories/${category.id}` }) %>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<div class="new-item">
+    <a href="/categories/new">
+        <i class="fas fa-plus-circle"></i> add a category
+    </a>
+</div>

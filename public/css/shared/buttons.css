@@ -1,0 +1,57 @@
+:root {
+    --color-btn-border: hsl(0, 0%, 40%);
+    --color-btn-primary-text: hsl(0, 0%, 40%);
+    --color-btn-primary-background: hsl(0, 0%, 100%);
+    --color-btn-primary-background-hover: hsl(0, 0%, 90%);
+    --color-btn-secondary-text: hsl(0, 0%, 30%);
+    --color-btn-secondary-background: hsl(0, 0%, 80%);
+    --color-btn-secondary-background-hover: hsl(0, 0%, 70%);
+    --color-btn-alert-text: white   ;
+    --color-btn-alert-background: hsl(0, 35%, 54%)   ;
+    --color-btn-alert-background-hover: hsl(0, 35%, 44%)   ;
+}
+.btn {
+    border: 1px solid var(--color-btn-border);
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+.btn-row {
+    display: flex;
+}
+.btn-row > * {
+    margin-left: 1rem;
+}
+.btn-row > *:first-child {
+    margin-left: 0;
+}
+.form-row-bundle .btn {
+    border-radius: .25rem;
+    padding: .25rem .5rem;
+    font-size: 1rem;
+}
+.btn-primary {
+    color: var(--color-btn-primary-text);
+    background-color: var(--color-btn-primary-background);
+}
+.btn-primary:hover {
+    background-color: var(--color-btn-primary-background-hover);
+}
+.btn-secondary {
+    color: var(--color-btn-secondary-text);
+    background-color: var(--color-btn-secondary-background);
+}
+.btn-secondary:hover {
+    background-color: var(--color-btn-secondary-background-hover);
+}
+.btn-alert {
+    border-color: var(--color-btn-alert-background);
+    color: var(--color-btn-alert-text);
+    background-color: var(--color-btn-alert-background);
+}
+.btn-alert:hover {
+    background-color: var(--color-btn-alert-background-hover);
+}

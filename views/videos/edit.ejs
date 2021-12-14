@@ -1,6 +1,10 @@
 <h2>Edit video</h2>
-<form action="/videos/<%= video.id %>?_method=PUT" method="POST">
-    <%- include('_form_fields') %>
-    <a href="/videos">Cancel</a>
-    <button type="submit">Update</button>
-</form>
+<div class="content-block">
+    <form action="/videos/<%= video.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <%- include('_form_fields') %>
+        <div class="form-row form-row-end btn-row">
+            <a class="btn btn-secondary" href="/videos">Cancel</a>
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>

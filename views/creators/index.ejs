@@ -1,22 +1,33 @@
-<h2>Search Creators</h2>
-<form action="/creators" method="GET">
-    <label>Name</label>
-    <input type="text" name="name" value="<%= searchOptions.name %>">
-    <button type="submit">Search</button>
-</form>
-<br>
-<table>
+<div class="content-header-block">
+    <h2>Creators</h2>
+    <form action="/creators" method="GET">
+        <div class="form-row form-row-bundle">
+            <div class="form-item">
+                <input type="text" placeholder="enter a creator name" name="name" value="<%= searchOptions.name %>">
+            </div>
+            <button class="btn btn-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+<div class="content-block">
     <% creators.forEach(creator => { %>
-    <tr>
-        <td><%= creator.name %></td>
-        <td><%= creator.createdAt.toISOString().split('T')[0] %></td>
-        <td><a href="/creators/<%= creator.id %>">View</a></td>
-        <td><a href="/creators/<%= creator.id %>/edit">Edit</a></td>
-        <td>
+    <div class="content-block-row">
+        <div>
+            <div class="content-block-main-label"><%= creator.name %></div>
+            <div class="date-caption"><%= creator.createdAt.toISOString().split('T')[0] %></div>
+        </div>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/creators/<%= creator.id %>">View</a>
+            <a class="btn btn-primary" href="/creators/<%= creator.id %>/edit">Edit</a>
             <%- include('../partials/deleteForm', 
                 { url: `/creators/${creator.id}` }) %>
-        </td>
-    </tr>
+        </div>
+    </div>
     <% }); %>
-</table>
+</div>
+<div class="new-item">
+    <a href="/creators/new">
+        <i class="fas fa-plus-circle"></i> add a creator
+    </a>
+</div>
 

@@ -1,0 +1,10 @@
+<h2>New product</h2>
+<div class="content-block">
+    <form action="/products" method="POST" enctype="multipart/form-data">
+        <%- include('_form_fields') %>
+        <div class="form-row form-row-end btn-row">
+            <a class="btn btn-secondary" href="/products">Cancel</a>
+            <button class="btn btn-primary" type="submit">Create</button>
+        </div>
+    </form>
+</div>

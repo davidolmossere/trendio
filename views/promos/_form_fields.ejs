@@ -1,0 +1,36 @@
+<div class="form-row">
+    <div class="form-item">
+        <label>Name</label>
+        <input type="text" name="name" value="<%= promo.name %>">
+    </div>
+    <div class="form-item">
+        <label>Creation date</label>
+        <input type="date" name="createdAt"
+            value="<%= promo.createdAt == null ? '' : promo.createdAt.toISOString().split('T')[0] %>">
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-item">
+        <label>Type</label>
+        <select name="dealType">
+            <% promoTypes.forEach(promoTypesItem => { %>
+              <% if (promo.dealType === promoTypesItem) { %>
+                <option selected label="<%= promo.dealType %>" value="<%= promo.dealType %>">
+              <% } else { %>
+                <option label="<%= promoTypesItem %>" value="<%= promoTypesItem %>">
+              <% } %>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-item">
+        <label>Value</label>
+        <input type="number" name="value" step="0.01" value="<%= promo.value %>">
+    </div>
+
+    <div class="form-item">
+        <label>Expiration date</label>
+        <input type="date" name="expirationDate"
+            value="<%= promo.expirationDate == null ? '' : promo.expirationDate.toISOString().split('T')[0] %>">
+    </div>
+</div>

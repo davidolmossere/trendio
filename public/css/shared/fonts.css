@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Raleway';
+    src: url('../../fonts/Raleway-VariableFont_wght.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Cormorant';
+    src: url('../../fonts/CormorantGaramond-Light.ttf') format('ttf');
+    font-weight: 200;
+    font-style: normal;
+}
