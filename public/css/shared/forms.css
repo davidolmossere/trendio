@@ -30,7 +30,6 @@
 .form-item > label {
     font-size: var(--form-label-font-size);
     margin-bottom: .25rem;
-    margin-left: .25rem;
 }
 .form-item > label.light {
     color: var(--form-input-border);
@@ -48,6 +47,9 @@
     font-weight: normal;
     font-family: 'Raleway';
     outline: none;
+}
+.form-item select[multiple] {
+    height: inherit;
 }
 .form-item textarea {
     height: 100%;
@@ -119,4 +121,10 @@ input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
+}
+
+.mid-cell-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

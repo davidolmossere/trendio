@@ -1,10 +1,58 @@
 <h2><%= video.setTitle %></h2>
 <div class="content-block">
     <img class="thumbnail" width="200" height="200" src="<%= video.thumbnailPath %>" />
-    <div>Creator: <%= video.creator.name %></div>
-    <div>Created at: <%= video.createdAt.toISOString().split('T')[0] %></div>
-    <div>Description: <%= video.description %></div>
-    <a href="/videos/<%= video.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm', {url: `/videos/${video.id}` }) %>
-    <a href="/creators/<%= video.creator.id %>">View creator</a>
+    <div class="form-item">
+        <label>Description</label>
+        <%= video.description %>
+    </div>
+    <div class="form-item">
+        <label>Created at</label>
+        <%= video.createdAt.toISOString().split('T')[0] %>
+    </div>
+    <div class="form-item">
+        <label>Visibility</label>
+        <%= video.visibility %>
+    </div>
+    <div class="form-item">
+        <label>Category</label>
+        <% categories.forEach(category => { %>
+            <% if (category.id == video.category) { %>
+                <%= category.name %>
+            <% } %>
+        <% }) %>
+    </div>
+    <div class="form-item">
+        <label>Position</label>
+        <%= video.position %>
+    </div>
+    <div class="form-item">
+        <label>Creator</label>
+        <%= video.creator.name %>
+    </div>
+    <div class="form-item">
+        <label>Video file name</label>
+        <%= video.videoFileName %>
+    </div>
+    <div class="form-item">
+        <label>Video URL</label>
+        <%= video.videoUrl %>
+    </div>
+    <div class="form-item">
+        <label>Products</label>
+        <% video.products.forEach(function(item) { %>
+            <% products.forEach(productItem => { %>
+                <% if (productItem.id == item) { %>
+                    <div><%= productItem.prodTitle %></div>
+                <% } %>
+            <% }) %>
+        <% }) %>
+    </div>
+
+    <div class="form-row form-row-end btn-row">
+        <a class="btn btn-secondary" href="/videos/<%= video.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm', 
+                    { url: `/videos/${video.id}` }) %>
+        <a href="/creators/<%= video.creator.id %>">View creator</a>
+    </div>
+
 </div>

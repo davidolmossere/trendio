@@ -7,5 +7,13 @@
         <label>Creation date</label>
         <input type="date" name="createdAt"
           value="<%= creator.createdAt == null ? '' : creator.createdAt.toISOString().split('T')[0] %>">
-  </div>
+    </div>
+    <div class="form-item">
+      <label>Thumbnail</label>    
+      <% if (creator.thumbnailPath != null && creator.thumbnailPath != '') { %>
+        <img height="64" width="64" src="<%= creator.thumbnailPath %>">
+        <label>Fancy new thumbnail ?</label>
+      <% } %>
+      <input type="file" name="thumbnailName">
+    </div>
 </div>

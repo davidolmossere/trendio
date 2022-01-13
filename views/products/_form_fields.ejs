@@ -16,13 +16,13 @@
   <div class="form-item">
     <label>Category</label>
     <select name="category">
-      <option label="None" value="">
-        <% categories.forEach(category => { %>
-      <% if (category.id === product.category) { %>
-        <option selected label="<%= category.name %>" value="<%= category.id %>">
-      <% } else { %>
-        <option label="<%= category.name %>" value="<%= category.id %>">
-      <% } %>
+      <option label="Pick a value" value="">
+      <% categories.forEach(category => { %>
+        <% if (category.id == product.category) { %>
+          <option selected label="<%= category.name %>" value="<%= category.id %>">
+        <% } else { %>
+          <option label="<%= category.name %>" value="<%= category.id %>">
+        <% } %>
     <% }) %>
     </select>
   </div>
@@ -44,12 +44,12 @@
   <div class="form-item">
     <label>Deal</label>
     <select name="deal">
-      <option label="None" value=""></option>
+      <option label="Pick a value" value=""></option>
       <% deals.forEach(deal => { %>
-        <% if (deal.id === product.deal) { %>
-          <option selected label="<%= deal.name %>" value="<%= deal.id %>">
+        <% if (deal.id == product.deal) { %>
+          <option selected label="<%= deal.label %>" value="<%= deal.id %>">
         <% } else { %>
-          <option label="<%= deal.name %>" value="<%= deal.id %>">
+          <option label="<%= deal.label %>" value="<%= deal.id %>">
         <% } %>
     <% }) %>    
     </select>

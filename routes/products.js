@@ -45,13 +45,18 @@ router.get('/new', async (req, res) => {
 
 // Create Product Route
 router.post('/', upload.single('thumbnailName'), async (req, res) => {
-    const fileName = req.file != null ? req.file.filename : null 
+    const fileName = req.file != null ? req.file.filename : 'default.jpg'
+    const realCat = req.body.category != '' ? req.body.category : null
+    const realDeal = req.body.deal != '' ? req.body.deal : null
+    const realStockStatus = req.body.stockStatus == 'on' ? true : false
+    const realVisibility = req.body.visibility == 'on' ? true : false
+    
     const product  = new Product({
         prodTitle: req.body.prodTitle,
-        createdAt: new Date(req.body.createdAt),
         brand: req.body.brand,
-        category: req.body.category,
-        deal: req.body.deal,
+        category: realCat,
+        createdAt: new Date(req.body.createdAt),
+        deal: realDeal,
         description: req.body.description,
         madeIn: req.body.madeIn,
         position: req.body.position,
@@ -63,10 +68,10 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
         shade: req.body.shade,
         size: req.body.size,
         sku: req.body.sku,
-        stockStatus: req.body.stockStatus,
+        stockStatus: realStockStatus,
         supplier: req.body.supplier,
         thumbnailName: fileName,
-        visibility: req.body.visibility,
+        visibility: realVisibility,
         weight: req.body.weight
     })
     try {
@@ -84,9 +89,9 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
 // Show Product Route
 router.get('/:id', async (req, res) => {
     try {
+        const product = await Product.findById(req.params.id).exec()
         const categories = await Category.find({})
         const deals = await Promo.find({})
-        const product = await Product.findById(req.params.id).exec()
         res.render('products/show', {
             categories: categories,
             deals: deals,
@@ -111,13 +116,15 @@ router.get('/:id/edit', async (req, res) => {
 router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
     let product
     const fileName = req.file != null ? req.file.filename : null 
+    const realStockStatus = req.body.stockStatus == 'on' ? true : false
+    const realVisibility = req.body.visibility == 'on' ? true : false
     try {
         product = await Product.findById(req.params.id)
         product.prodTitle = req.body.prodTitle,
         product.createdAt = new Date(req.body.createdAt),
         product.brand = req.body.brand,
-        product.category = req.body.category,
-        product.deal = req.body.deal,
+        product.category = req.body.category != '' ? req.body.category : null,
+        product.deal = req.body.deal != '' ? req.body.deal : null,
         product.description = req.body.description,
         product.madeIn = req.body.madeIn,
         product.position = req.body.position,
@@ -129,18 +136,17 @@ router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
         product.shade = req.body.shade,
         product.size = req.body.size,
         product.sku = req.body.sku,
-        product.stockStatus = !!req.body.stockStatus,
+        product.stockStatus = realStockStatus,
         product.supplier = req.body.supplier,
-        product.visibility = !!req.body.visibility,
+        product.visibility = realVisibility,
         product.weight = req.body.weight
-
+        
         if (fileName != null && fileName !=='' ) {
             product.thumbnailName = fileName
         }
         await product.save()
         res.redirect(`/products/${product.id}`)
     } catch (err) {
-        console.log(err)
         if (product != null) {
             renderEditPage(res, product, true)
         } else {

@@ -1,54 +1,111 @@
 <h2><%= product.prodTitle %></h2>
 <div class="content-block">
     <div class="">
-        <div class="">
+        <div class="form-row">
             <img class="thumbnail" width="200" height="200" src="<%= product.thumbnailPath %>" />
-        </div>
-        <div class="">
-            <div class="">
-                <label>Brand</label>
-                <div><%= product.brand %></div>
-            </div>
-            <div class="">
+            <div class="form-item">
                 <label>Description</label>
                 <div><%= product.description %></div>            
             </div>
         </div>
-        <div>Created at: <%= product.createdAt.toISOString().split('T')[0] %></div>
-        
-        <div>Category: 
-            <% categories.forEach(category => { %>
-                <% if (category.id == product.category) { %>
-                    <%= category.name %>
-                <% } %>
-            <% }) %>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Brand</label>
+                <div><%= product.brand %></div>
+            </div>
+            <div class="form-item">
+                <label>SKU</label>
+                <%= product.sku %>
+            </div>
+            <div class="form-item">
+                <label>Product URL</label>
+                <a target="_blank" href="<%= product.productUrl %>"><%= product.productUrl %></a>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Category</label>
+                <% categories.forEach(category => { %>
+                    <% if (category.id == product.category) { %>
+                        <%= category.name %>
+                    <% } %>
+                <% }) %>
+            </div>
+            <div class="form-item">
+                <label>Created at</label>
+                <%= product.createdAt.toISOString().split('T')[0] %>
+            </div>
+            <div class="form-item">
+                <label>Position</label>
+                <%= product.position %>
+            </div>        
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Price</label>
+                <%= product.price %>
+            </div>
+            <div class="form-item">
+                <label>Deal</label> 
+                <% deals.forEach(deal => { %>
+                    <% if (deal.id == product.deal) { %>
+                        <%= deal.label %>
+                    <% } %>
+                <% }) %>    
+            </div>
+            <div class="form-item">
+                <label>Quantity</label>
+                <%= product.qty %>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Size</label>
+                <%= product.size %>
+            </div>
+            <div class="form-item">
+                <label>Weight</label>
+                <%= product.weight %>
+            </div>
+            <div class="form-item">
+                <label>Rating</label>
+                <%= product.rating %>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Launch date</label>
+                <%= product.prodLaunchDate %>
+            </div>
+            <div class="form-item">
+                <label>Stock status</label>
+                <%= product.stockStatus %>
+            </div>
+            <div class="form-item">
+                <label>Visibility</label>
+                <%= product.visibility %>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Made in</label>
+                <%= product.madeIn %>
+            </div>
+            <div class="form-item">
+                <label>Shade</label>
+                <%= product.shade %>
+            </div>
+            <div class="form-item">
+                <label>Supplier</label>
+                <%= product.supplier %>
+            </div>
         </div>
     </div>
 
-    <div>Deal: 
-        <% deals.forEach(deal => { %>
-            <% if (deal.id == product.deal) { %>
-                <%= deal.name %>
-            <% } %>
-        <% }) %>    
+    <div class="form-row form-row-end btn-row">
+        <a href="/products/">Back</a>
+        <a class="btn btn-secondary" href="/products/<%= product.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm', {url: `/products/${product.id}` }) %>
     </div>
-    <div>Made in: <%= product.madeIn %></div>
-    <div>Position: <%= product.position %></div>
-    <div>Price: <%= product.price %></div>
-    <div>Launch date: <%= product.prodLaunchDate %></div>
-    <div>Product URL: 
-        <a target="_blank" href="<%= product.productUrl %>"><%= product.productUrl %></a>
-    </div>
-    <div>Quantity: <%= product.qty %></div>
-    <div>Rating: <%= product.rating %></div>
-    <div>Shade: <%= product.shade %></div>
-    <div>Size: <%= product.size %></div>
-    <div>SKU: <%= product.sku %></div>
-    <div>Stock status: <%= product.stockStatus %></div>
-    <div>Supplier: <%= product.supplier %></div>
-    <div>Visibility: <%= product.visibility %></div>
-    <div>Weight: <%= product.weight %></div>
 
-    <a href="/products/<%= product.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm', {url: `/products/${product.id}` }) %>
 </div>

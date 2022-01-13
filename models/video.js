@@ -21,7 +21,8 @@ const videoSchema = new mongoose.Schema({
         default: true
     },
     position: {
-        type: Number
+        type: Number,
+        min: 0
     },
     videoFileName: {
         type: String
@@ -39,6 +40,10 @@ const videoSchema = new mongoose.Schema({
         required: true,
         ref: 'Creator'
     },
+    products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }],
     videoUrl: {
         type: String
     }

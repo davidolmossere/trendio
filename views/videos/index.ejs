@@ -1,5 +1,8 @@
 <div class="content-header-block">
     <h2>Videos</h2>
+    <a href="/videos/new">
+        <i class="fas fa-plus-circle"></i> add a video
+    </a>
     <form action="/videos" method="GET">
         <div class="form-row form-row-bundle">
             <div class="form-item">
@@ -10,11 +13,47 @@
     </form>
 </div>
 <div class="content-block">
-    <% videos.forEach(video => { %>
-        <a href="/videos/<%= video.id %>">
-            <div><%= video.setTitle %></div>
-        </a>
-    <% }); %>
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th class="full-cell">&nbsp;</th>
+                <th class="left-align">Title</th>
+                <th class="left-align">Category</th>
+                <th>Creator</th>
+                <th>Visible</th>
+                <th>edit</th>
+                <th>view</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% videos.forEach(video => { %>
+            <tr>
+                <td><%= video.position ? video.position : '-' %></td>
+                <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="<%= video.thumbnailPath %>" /></td>
+                <td class="left-align"><%= video.setTitle  %></td>
+                <td class="left-align"><% categories.forEach(category => { %>
+                    <% if (category.id == video.category) { %>
+                        <%= category.name %>
+                      <% } %>
+                    <% }) %>
+                </td>
+                <td><% creators.forEach(creator => { %>
+                    <% if (creator.id == video.creator) { %>
+                        <%= creator.name %>
+                      <% } %>
+                    <% }) %>
+                </td>
+                <td><% if (video.visibility) { %>
+                    <i class="fas fa-check purple small"></i>
+                    <% } %>
+                </td>
+                <td><a href="/videos/<%= video.id %>/edit"><i class="far fa-edit"></i></a></td>
+                <td><a href="/videos/<%= video.id %>"><i class="far fa-eye"></i></a></td>
+            <% }); %>
+        
+        </tbody>
+    </table>
 </div>
 <div class="new-item">
     <a href="/videos/new">

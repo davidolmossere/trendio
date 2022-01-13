@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const promoTypes = ['discount', 'credit', 'bundle']
   
 const promoSchema = new mongoose.Schema({
-    name: { 
+    label: { 
         type: String, 
         required: true
     },
@@ -15,10 +15,12 @@ const promoSchema = new mongoose.Schema({
         type: Date
     },
     dealType: {
-        type: String
+        type: String,
+        required: true
     },
     value: {
-        type: Number
+        type: Number,
+        required: true
     }
 })
 

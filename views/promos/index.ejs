@@ -9,12 +9,15 @@
         </div>
     </form>
 </div>
-<div class="content-block">
+<div class="content-block boxes">
     <% promos.forEach(promo => { %>
     <div class="content-block-row">
         <div>
-            <div class="content-block-main-label"><%= promo.name %></div>
+            <div class="content-block-main-label"><%= promo.label %></div>
             <div class="date-caption"><%= promo.createdAt.toISOString().split('T')[0] %></div>
+            <div class=""><%= promo.expirationDate ? promo.expirationDate.toISOString().split('T')[0] : '-' %></div>
+            <div class=""><%= promo.dealType %></div>
+            <div class=""><%= promo.value %></div>
         </div>
         <div class="btn-row">
             <a class="btn btn-primary" href="/promos/<%= promo.id %>/edit">edit</a>

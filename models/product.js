@@ -17,11 +17,11 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Category', 
     },
     deal: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Promo'
+        ref: 'Promo',
     },
     description: {
         type: String
@@ -30,10 +30,12 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     position: {
-        type: Number
+        type: Number,
+        min: 0
     },
     price: {
-        type: Number
+        type: Number,
+        min: 0
     },
     prodLaunchDate: {
         type: Date
@@ -42,7 +44,8 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: Number
+        type: Number,
+        min: 0
     },
     rating: {
         type: Number

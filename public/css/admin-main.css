@@ -31,6 +31,12 @@ a:hover {
 i {
     vertical-align: middle;
 }
+.circle {
+    border-radius: 50%;
+}
+.dotted-bottom-line {
+    border-bottom: 1px dotted #DDD;
+}
 h2 {
     font-size: 3em;
     font-weight: 200;
@@ -40,8 +46,17 @@ h2 {
 .center {
     text-align: center;
 }
+.purple {
+    color: var(--color-logo-purple);
+}
+.small {
+    font-size: .8em;
+}
 .left-align {
     text-align: left;
+}
+.right-align {
+    text-align: right;
 }
 .container {
     max-width: 1500px;
@@ -62,7 +77,22 @@ h2 {
     justify-content: space-between;
 }
 .content-block-row {
-    margin-bottom: 1em;
+    padding: .5em 0;
+}
+.content-block.boxes {
+    display: flex;
+}
+.boxes .content-block-row {
+    flex-direction: column;
+}
+.boxes .content-block-row {
+    padding: 1em;
+    margin-right: 1em;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+}
+.boxes .btn-row {
+    margin-top: 1em;
 }
 .content-block-main-label {
     font-size: 1.1em;

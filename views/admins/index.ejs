@@ -1,0 +1,32 @@
+<div class="content-header-block">
+    <h2>Admins</h2>
+    <form action="/admins" method="GET">
+        <div class="form-row form-row-bundle">
+            <div class="form-item">
+                <input type="text" placeholder="enter an admin name" name="name" value="<%= searchOptions.name %>">
+            </div>
+            <button class="btn btn-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+<div class="content-block">
+    <% admins.forEach(admin => { %>
+    <div class="content-block-row">
+        <div class="btn-row">
+            <div class="content-block-main-label"><%= admin.name %></div>
+            <div class="content-block-main-label"><%= admin.email %></div>
+            <div class="content-block-main-label"><%= admin.createdAt.toISOString().split('T')[0] %></div>
+        </div>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/admins/<%= admin.id %>/edit">edit</a>
+            <%- include('../partials/deleteForm', 
+                    { url: `/admins/${admin.id}` }) %>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<div class="new-item">
+    <a href="/admins/new">
+        <i class="fas fa-plus-circle"></i> add an admin
+    </a>
+</div>

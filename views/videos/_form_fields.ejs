@@ -6,7 +6,7 @@
   <div class="form-item">
     <label>Visibility</label>
     <label class="switch">
-      <input type="checkbox" name="visibility">
+      <input type="checkbox" name="visibility" <%= video.visibility ? 'checked' : '' %> >
       <span class="slider"></span>
     </label>
   </div>  
@@ -15,25 +15,27 @@
   <div class="form-item">
     <label>Creator</label>
     <select name="creator">
-    <% creators.forEach(creator => { %>
-      <% if (creator.id === video.creator) { %>
-        <option selected label="<%= creator.name %>" value="<%= creator.id %>">
-      <% } else { %>
-        <option label="<%= creator.name %>" value="<%= creator.id %>">
-      <% } %>
-    <% }) %>
+      <option label="Pick a value" value="">
+        <% creators.forEach(creator => { %>
+        <% if (creator.id == video.creator) { %>
+          <option selected label="<%= creator.name %>" value="<%= creator.id %>">
+        <% } else { %>
+          <option label="<%= creator.name %>" value="<%= creator.id %>">
+        <% } %>
+      <% }) %>
     </select>
   </div>
   <div class="form-item">
     <label>Category</label>
     <select name="category">
-    <% categories.forEach(category => { %>
-      <% if (category.id === video.category) { %>
-        <option selected label="<%= category.name %>" value="<%= category.id %>">
-      <% } else { %>
-        <option label="<%= category.name %>" value="<%= category.id %>">
-      <% } %>
-    <% }) %>
+      <option label="Pick a value" value="">
+        <% categories.forEach(category => { %>
+        <% if (category.id == video.category) { %>
+          <option selected label="<%= category.name %>" value="<%= category.id %>">
+        <% } else { %>
+          <option label="<%= category.name %>" value="<%= category.id %>">
+        <% } %>
+      <% }) %>
     </select>
   </div>
   <div class="form-item">
@@ -43,20 +45,28 @@
   </div>
   <div class="form-item">
     <label>Position</label>
-    <input type="number" name="position">
+    <input type="number" name="position" value="<%= video.position %>">
   </div>
 </div>
 <div class="form-row">
   <div class="form-item">
     <label>Video URL</label>
-    <input type="text" name="videoUrl">
+    <input type="text" name="videoUrl" value="<%= video.videoUrl %>">
   </div>
   <div class="form-item">
     <label>Video File Name</label>
-    <input type="text" name="videoFileName">
+    <input type="text" name="videoFileName" value="<%= video.videoFileName %>">
   </div>
+</div>
+<div class="form-row">
+  <% if (video.thumbnailPath != null && video.thumbnailPath != '' ) { %>
+    <div class="form-item">
+      <label>Current Thumbnail</label>
+      <img class="thumbnail" width="200" height="200" src="<%= video.thumbnailPath %>" />
+    </div>
+  <% } %>
   <div class="form-item">
-    <label>Thumbnail</label>
+    <label>New Thumbnail</label>
     <input type="file" name="thumbnailName">
   </div>
 </div>
@@ -67,6 +77,27 @@
   </div>
   <div class="form-item">
     <label>Products</label>
+    <select name="products" size="5" multiple >
+      <option label="None" value="">
+      <% if (video.products == '') { %>
+        <% products.forEach(product => { %>
+          <option label="<%= product.prodTitle %>" value="<%= product.id %>">
+        <% }) %>
+      <% } else { %>
+        <% products.forEach(product => { %>
+          <% let shortIt = true %>
+          <% video.products.forEach(videoProd => { %>
+            <% if (product.id == videoProd) { %>
+              <option selected label="<%= product.prodTitle %>" value="<%= product.id %>">
+              <% shortIt = false %>
+            <% } %>
+          <% }) %>
+          <% if (shortIt) { %>
+            <option label="<%= product.prodTitle %>" value="<%= product.id %>">
+          <% } %>
+        <% }) %>
+      <% } %>
+    </select>
   </div>
 </div>
 

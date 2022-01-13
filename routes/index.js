@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+
 const Video = require('../models/video')
 
 router.get('/', async (req, res) => {

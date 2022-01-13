@@ -1,5 +1,8 @@
 <div class="content-header-block">
     <h2>Products</h2>
+    <a href="/products/new">
+        <i class="fas fa-plus-circle"></i> add a product
+    </a>
     <form action="/products" method="GET">
         <div class="form-row form-row-bundle">
             <div class="form-item">
@@ -13,15 +16,14 @@
     <table>
         <thead>
             <tr>
+                <th>Position</th>
                 <th class="full-cell">&nbsp;</th>
                 <th class="left-align">Name</th>
-                <th>Created</th>
-                <th>Category</th>
-                <th>Brand</th>
+                <th class="left-align">Category</th>
+                <th class="left-align">Brand</th>
                 <th>Price</th>
                 <th>Deal</th>
                 <th>Visible</th>
-                <th>Position</th>
                 <th>Prod URL</th>
                 <th>edit</th>
                 <th>view</th>
@@ -30,28 +32,27 @@
         <tbody>
             <% products.forEach(product => { %>
                 <tr>
+                    <td><%= product.position ? product.position : '-' %></td>
                     <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="<%= product.thumbnailPath %>" /></td>
                     <td class="left-align"><%= product.prodTitle  %></td>
-                    <td><%= product.createdAt.toISOString().split('T')[0] %></td>
-                    <td><% categories.forEach(category => { %>
+                    <td class="left-align"><% categories.forEach(category => { %>
                         <% if (category.id == product.category) { %>
                             <%= category.name %>
                           <% } %>
                     <% }) %>
                     </td>
-                    <td><%= product.brand ? product.brand : '-' %></td>
+                    <td class="left-align"><%= product.brand ? product.brand : '-' %></td>
                     <td><%= product.price ? product.price : '-' %></td>
                     <td><% deals.forEach(deal => { %>
                         <% if (deal.id == product.deal) { %>
-                            <%= deal.name %>
+                            <%= deal.label %>
                         <% } %>
                     <% }) %>
                     </td>
                     <td><% if (product.visibility) { %>
-                        <i class="fas fa-check"></i>
+                        <i class="fas fa-check purple small"></i>
                         <% } %>
                     </td>
-                    <td><%= product.position ? product.position : '-' %></td>
                     <td>
                         <% if (product.productUrl != null && product.productUrl !='' ) { %>
                             <a target="_blank" href="<%= product.productUrl %>" title="<%= product.productUrl %>"><i class="fas fa-external-link-alt"></i></a>

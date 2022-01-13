@@ -7,11 +7,15 @@ const fs = require('fs')
 const Video = require('../models/video')
 const Category = require('../models/category')
 const Creator = require('../models/creator')
+const Product = require('../models/product')
 
 const uploadPath = path.join('public', Video.thumbnailBasePath)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 const upload = multer({
     dest: uploadPath,
+    limits: {
+        fileSize: 2000000
+    },
     fileFilter: (req, file, callback) => {
         callback(null, imageMimeTypes.includes(file.mimetype))
     }
@@ -24,9 +28,13 @@ router.get('/', async (req, res) => {
         query = query.regex('setTitle', new RegExp(req.query.setTitle, 'i'))
     }
     try {
+        const categories = await Category.find({})
+        const creators = await Creator.find({})
         const videos = await query.exec()
         res.render('videos/index', {
             videos: videos,
+            categories: categories,
+            creators: creators,
             searchOptions: req.query
         })
     } catch {
@@ -41,16 +49,23 @@ router.get('/new', async (req, res) => {
 
 // Create Video Route
 router.post('/', upload.single('thumbnailName'), async (req, res) => {
-    const fileName = req.file != null ? req.file.filename : null 
+    const fileName = req.file != null ? req.file.filename : 'default.jpg' 
+    const realCat = req.body.category != '' ? req.body.category : null
+    const realCreator = req.body.creator != '' ? req.body.creator : null
+    const realVisibility = req.body.visibility == 'on' ? true : false
+
     const video  = new Video({
         setTitle: req.body.setTitle,
-        description: req.body.description,
-        category: req.body.category,
+        category: realCat,
         createdAt: new Date(req.body.createdAt),
-        // visibility: req.body.visible,
+        creator: realCreator,
+        description: req.body.description,
         position: req.body.position,
+        products: req.body.products,
         thumbnailName: fileName,
-        creator: req.body.creator
+        videoFileName: req.body.videoFileName,
+        videoUrl: req.body.videoUrl,
+        visibility: realVisibility
     })
     try {
         const newVideo = await video.save()
@@ -68,7 +83,13 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const video = await Video.findById(req.params.id).populate('creator').exec()
-        res.render('videos/show', {video: video})
+        const categories = await Category.find({})
+        const products = await Product.find({})
+        res.render('videos/show', {
+            categories: categories,
+            video: video, 
+            products: products
+        })
     } catch {
         res.redirect('/')
     }
@@ -87,14 +108,36 @@ router.get('/:id/edit', async (req, res) => {
 // Update Video Route
 router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
     let video
-    const fileName = req.file != null ? req.file.filename : null 
+    let transitionVidProds = []
+    const fileName = req.file != null ? req.file.filename : null
+    const realVisibility = req.body.visibility == 'on' ? true : false
     try {
         video = await Video.findById(req.params.id)
         video.setTitle = req.body.setTitle
-        video.creator = req.body.creator
-        video.category = req.body.category
-        video.createdAt = new Date(req.body.createdAt)
         video.description = req.body.description
+        video.createdAt = new Date(req.body.createdAt)
+        video.visibility = realVisibility
+        video.position = req.body.position
+        video.videoFileName = req.body.videoFileName
+        video.creator = req.body.creator != '' ? req.body.creator : null,
+        video.category = req.body.category != '' ? req.body.category : null,
+        video.videoUrl = req.body.videoUrl
+        // if selected None in Products
+        if (req.body.products === '') {
+            video.products = []
+        } else if (req.body.products !== undefined) {
+            // if selected many Products
+            if (Array.isArray(req.body.products)){
+                req.body.products.forEach(item => {
+                    transitionVidProds.push(item)
+                })
+                video.products = transitionVidProds
+            } else {
+            // if selected only 1 Product
+                video.products = req.body.products
+            }
+        }
+
         if (fileName != null && fileName !=='' ) {
             video.thumbnailName = fileName
         }
@@ -145,16 +188,18 @@ async function renderFormPage(res, video, form, hasError = false) {
     try {
         const creators = await Creator.find({})
         const categories = await Category.find({})
+        const products = await Product.find({})
         const params = {
             creators: creators,
             categories: categories,
+            products: products,
             video: video
         }
         if (hasError) {
             if (form === 'edit') {
-              params.errorMessage = 'Error Updating Book'
+              params.errorMessage = 'Error Updating Video. Check the Categories field as it is mandatory.'
             } else {
-              params.errorMessage = 'Error Creating Book'
+              params.errorMessage = 'Error Creating Video'
             }
         }
         res.render(`videos/${form}`, params)

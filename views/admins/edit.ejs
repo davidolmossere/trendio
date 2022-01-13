@@ -1,0 +1,10 @@
+<h2>Edit admin</h2>
+<div class="content-block">
+    <form action="/admins/<%= admin.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+        <div class="form-row form-row-end btn-row">
+            <a class="btn btn-secondary" href="/admins/">Cancel</a>
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const path = require('path')
+const thumbnailBasePath = 'uploads/thumbnails/creators'
 const Video = require('./video')
 
 const creatorSchema = new mongoose.Schema({
@@ -10,6 +12,15 @@ const creatorSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
+    },
+    thumbnailName: {
+        type: String
+    }
+})
+
+creatorSchema.virtual('thumbnailPath').get(function() {
+    if (this.thumbnailName != null) {
+      return path.join('/', thumbnailBasePath, this.thumbnailName)
     }
 })
 
@@ -25,3 +36,4 @@ creatorSchema.pre('remove', function(next) {
     })
 })
 module.exports = mongoose.model('Creator', creatorSchema)
+module.exports.thumbnailBasePath = thumbnailBasePath

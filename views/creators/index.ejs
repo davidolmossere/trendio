@@ -1,5 +1,8 @@
 <div class="content-header-block">
     <h2>Creators</h2>
+    <a href="/creators/new">
+        <i class="fas fa-plus-circle"></i> add a creator
+    </a>
     <form action="/creators" method="GET">
         <div class="form-row form-row-bundle">
             <div class="form-item">
@@ -11,13 +14,18 @@
 </div>
 <div class="content-block">
     <% creators.forEach(creator => { %>
-    <div class="content-block-row">
-        <div>
-            <div class="content-block-main-label"><%= creator.name %></div>
-            <div class="date-caption"><%= creator.createdAt.toISOString().split('T')[0] %></div>
+    <div class="content-block-row dotted-bottom-line">
+        <div class="btn-row">
+            <div>
+                <img class="circle" height="64" width="64" src="<%= creator.thumbnailPath %>">
+            </div>
+            <div class=mid-cell-align>
+                <div class="content-block-main-label"><%= creator.name %></div>
+                <div class="date-caption"><%= creator.createdAt.toISOString().split('T')[0] %></div>
+            </div>
         </div>
         <div class="btn-row">
-            <a class="btn btn-primary" href="/creators/<%= creator.id %>">View</a>
+            <a class="btn btn-primary" href="/creators/<%= creator.id %>">See videos</a>
             <a class="btn btn-primary" href="/creators/<%= creator.id %>/edit">Edit</a>
             <%- include('../partials/deleteForm', 
                 { url: `/creators/${creator.id}` }) %>

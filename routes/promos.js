@@ -30,7 +30,7 @@ router.get('/new', (req, res) => {
 // Create Promo Route
 router.post('/', async (req, res) => {
     const promo  = new Promo({
-        name: req.body.name,
+        label: req.body.label,
         createdAt: req.body.createdAt,
         expirationDate: req.body.expirationDate,
         dealType: req.body.dealType,
@@ -63,7 +63,7 @@ router.put('/:id', async (req, res) => {
     let category
     try {
         promo = await Promo.findById(req.params.id)
-        promo.name = req.body.name
+        promo.label = req.body.label
         promo.createdAt = req.body.createdAt
         promo.expirationDate = req.body.expirationDate
         promo.dealType = req.body.dealType
