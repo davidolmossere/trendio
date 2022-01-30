@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const validator = require('validator')
 
 const adminSchema = new mongoose.Schema({
     name: { 
@@ -16,7 +19,12 @@ const adminSchema = new mongoose.Schema({
         required: true,
         trim: true,
         lowercase: true,
-        unique: true
+        unique: true, 
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
     },
     password: {
         type: String,
@@ -45,7 +53,7 @@ adminSchema.methods.toJSON = function () {
 // Token generator method
 adminSchema.methods.generateAuthToken = async function () {
     const admin = this
-    const token = jwt.sign({ _id: admin._id.toString() }, 'delaboetieetgeorgespompidoudoubidou')
+    const token = jwt.sign({ _id: admin._id.toString() }, process.env.ACCESS_TOKEN_SECRET)
     admin.tokens = admin.tokens.concat({ token })
     await admin.save()
     return token
@@ -58,6 +66,7 @@ adminSchema.statics.findByCredentials = async (email, password) => {
         throw new Error ('This admin does not exist')
     }
     const isMatch = await bcrypt.compare(password, admin.password)
+
     if (!isMatch) {
         throw new Error ('Unable to log in')
     }
@@ -72,4 +81,5 @@ adminSchema.pre('save', async function(next) {
     }
     next()
 })
+
 module.exports = mongoose.model('Admin', adminSchema)

@@ -5,7 +5,7 @@ const thumbnailBasePath = 'uploads/thumbnails/products'
 const productSchema = new mongoose.Schema({
     prodTitle: { 
         type: String, 
-        required: true
+        required: true,
     },
     createdAt: {
         type: Date,
@@ -17,11 +17,11 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category', 
+        ref: 'Category'
     },
     deal: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Promo',
+        ref: 'Promo'
     },
     description: {
         type: String

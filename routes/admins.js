@@ -23,13 +23,15 @@ router.get('/', auth, async (req, res) => {
 // New Admin Route
 router.get('/new', auth, (req, res) => {
     res.render('admins/new', { 
-        admin: new Admin(), 
+        admin: new Admin()
     })
 })
 
 // Login Route
 router.get('/login', (req, res) => {
-    res.render('admins/login')
+    res.render('admins/login', { 
+        layout: 'layouts/login-layout'
+      })
 })
 
 //  Login  Route
@@ -37,14 +39,23 @@ router.post('/login', async (req, res) => {
     try {
         const admin = await Admin.findByCredentials(req.body.email, req.body.password)
         const token = await admin.generateAuthToken()
-        res.send({admin, token})
+        // res.send({admin, token})
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+             })
+            .status(200)
+            .redirect('/admins');
     }
-    catch (e) {
-        res.status(400).send()
+    catch (err) {
+        res.status(400)
+        .render('admins/login', {
+            errorMessage: err.message
+        })
     }
 })
 
-// Create Logout  Route
+//  Logout  Route
 router.post('/logout', auth, async (req, res) => {
     try {
         req.admin.tokens = req.admin.tokens.filter((token) => {
@@ -54,11 +65,13 @@ router.post('/logout', auth, async (req, res) => {
 
         res.send()
     }
-    catch (e) {
-        res.status(500).send()
+    catch (err) {
+        res.status(500)
+        .render('admins/login', {
+            errorMessage: err.message
+        })
     }
 })
-
 
 // Create Admin Route
 router.post('/', auth, async (req, res) => {
@@ -71,10 +84,10 @@ router.post('/', auth, async (req, res) => {
     try {
         const newAdmin = await admin.save()
         res.redirect(`admins/`)
-    } catch {
+    } catch (err) {
         res.render('admins/new', {
             admin: admin,
-            errorMessage: 'Error creating Admin'
+            errorMessage: err.message
         })
     }
 })
@@ -90,7 +103,7 @@ router.get('/:id/edit', auth, async (req, res) => {
     }
 })
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         admin = await Admin.findById(req.params.id)
         admin.name = req.body.name
@@ -99,12 +112,13 @@ router.put('/:id', auth, async (req, res) => {
         admin.password = req.body.password
         await admin.save()
         res.redirect(`/admins/`)
-    } catch {
+    } catch (err) {
         if (admin == null) {
             res.redirect('/')
         } else {
             res.render('admins/edit', {
-                admin: admin
+                admin: admin, 
+                errorMessage: err.message
             })
         }
     }
@@ -123,6 +137,27 @@ router.delete('/:id', auth, async (req, res) => {
             res.redirect(`/admins/${admin.id}`)
         }
     }
+})
+
+router.get('/logout', auth, async (req, res) => {
+    try {
+        req.admin.tokens = req.admin.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.admin.save()
+
+        res
+        .clearCookie("access_token")
+        .status(200)
+        .redirect('/admins/login');
+    }
+    catch (e) {
+        res.status(500).send()
+    }
+  });
+
+router.get('*', async (req, res) => {
+    res.redirect('/admins/login');
 })
 
 module.exports = router

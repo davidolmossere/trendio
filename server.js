@@ -2,12 +2,14 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+const path = require('path')
 const express = require('express')
+const cors = require('cors');
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const favicon = require('serve-favicon');
-const path = require('path')
 const methodOverride = require('method-override')
+const cookieParser = require("cookie-parser");
 
 const indexRouter = require('./routes/index')
 const creatorRouter = require('./routes/creators')
@@ -26,6 +28,8 @@ app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ limit: '10mb', extended: false }))
 app.use(favicon(path.join(__dirname, 'public', 'media', 'favicon.ico')))
+app.use(cors());
+app.use(cookieParser());
 
 const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true})

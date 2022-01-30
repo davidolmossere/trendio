@@ -1,34 +1,29 @@
-<header>
-    <nav class="header-nav">
-        <a class="header-logo" href="/">
-            <img class="" src="/media/logo-trendio.png" />
-        </a>
-        <div class="admin-header-options">
-            <div>
-                <div class="admin-header-options-header">
-                    <a href="/videos/">Videos</a>
-                </div>
-            </div>
-            <div>
-                <div class="admin-header-options-header">
-                    <a href="/products/">Products</a>
-                </div>
-            </div>
-            <div>
-                <div class="admin-header-options-header">
-                    <a href="/categories/">Categories</a>
-                </div>
-            </div>
-            <div>
-                <div class="admin-header-options-header">
-                    <a href="/creators/">Creators</a>
-                </div>
-            </div>
-            <div>
-                <div class="admin-header-options-header">
-                    <a href="/promos/">Promos</a>
-                </div>
-            </div>
-        </div>
+<header class="primary-header flex">
+    <div class="logo">
+        <img class="" src="/media/logo-trendio.png" />
+    </div>
+
+    <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+        <span class="sr-only">Menu</span>
+    </button>
+
+    <nav>
+        <ul id="primary-navigation" data-visible="false" class="primary-navigation flex">
+            <li><a href="/videos/">Videos</a></li>
+            <li><a href="/products/">Products</a></li>
+            <li><a href="/categories/">Categories</a></li>
+            <li><a href="/creators/">Creators</a></li>
+            <li><a href="/promos/">Promos</a></li>
+            <li class="has-submenu">
+                <a aria-controls="primary-submenu" aria-expanded="false" class="submenu-toggle">
+                    <i class="far fa-user"></i>
+                </a>
+                <ul id="primary-submenu" data-visible="false" class="primary-submenu">
+                    <li><a href="/admins/new">Add</a></li>
+                    <li><a href="/admins">All</a></li>
+                    <li><a href="/admins/logout">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
     </nav>
 </header>

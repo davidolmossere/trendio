@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Promo = require('../models/promo')
+const auth = require('../middleware/auth')
 
 // All Promos Route
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let searchOptions = {}
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i')
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 })
 
 // New Promo Route
-router.get('/new', (req, res) => {
+router.get('/new', auth, (req, res) => {
     res.render('promos/new', { 
         promo: new Promo(), 
         promoTypes: Promo.promoTypes
@@ -95,6 +96,10 @@ router.delete('/:id', async (req, res) => {
             res.redirect(`/promos/${promo.id}`)
         }
     }
+})
+
+router.get('*', async (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
 })
 
 module.exports = router

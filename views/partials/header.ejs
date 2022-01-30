@@ -1,12 +1,24 @@
-<header>
-    <nav class="header-nav">
-        <a class="header-logo" href="/">
-            <img class="" src="/media/logo-trendio.png" />
-        </a>
-        <ul>
-            <li><a href="">Cosmetics</a></li>
-            <li><a href="">Skincare</a></li>
-            <li><a href="">Fashion</a></li>
+<header class="primary-header flex">
+    <nav>
+        <ul id="primary-navigation" data-visible="false" class="navigation primary-navigation flex">
+            <li><a href="/">Cosmetics</a></li>
+            <li><a href="/">Skincare</a></li>
+            <li><a href="/">Haircare</a></li>
+        </ul>
+    </nav>
+
+    <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+        <span class="sr-only">Menu</span>
+    </button>
+
+    <a class="logo" href="/">
+        <img class="" src="/media/logo-trendio.png" />
+    </a>
+
+    <nav>
+        <ul id="secondary-navigation" data-visible="true" class="navigation secondary-navigation flex">
+            <li><i class="far fa-user"></i></li>
+            <li><i class="fas fa-shopping-bag"></i></li>
         </ul>
     </nav>
 </header>

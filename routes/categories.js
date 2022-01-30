@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-// const auth = require('../middleware/auth')
+const auth = require('../middleware/auth')
 const Category = require('../models/category')
 const Video = require('../models/video')
 
 // All Categories Route
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let searchOptions = {}
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i')
@@ -22,12 +22,12 @@ router.get('/', async (req, res) => {
 })
 
 // New Category Route
-router.get('/new', (req, res) => {
+router.get('/new', auth, (req, res) => {
     res.render('categories/new', { category: new Category() })
 })
 
 // Create Category Route
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const category  = new Category({
         name: req.body.name,
         createdAt: req.body.createdAt
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
     try {
         const category = await Category.findById(req.params.id)
         res.render('categories/edit', { category: category })
@@ -53,7 +53,7 @@ router.get('/:id/edit', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     let category
     try {
         category = await Category.findById(req.params.id)
@@ -73,7 +73,7 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     let category
     try {
         category = await Category.findById(req.params.id)
@@ -86,6 +86,10 @@ router.delete('/:id', async (req, res) => {
             res.redirect(`/categories/${category.id}`)
         }
     }
+})
+
+router.get('*', async (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
 })
 
 module.exports = router

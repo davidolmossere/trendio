@@ -4,6 +4,7 @@ const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const auth = require('../middleware/auth')
 
 const Creator = require('../models/creator')
 const Video = require('../models/video')
@@ -24,7 +25,7 @@ const upload = multer({
 })
 
 // All Creators Route
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let searchOptions = {}
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i')
@@ -38,11 +39,6 @@ router.get('/', async (req, res) => {
     } catch {
         res.redirect('/')
     }
-})
-
-// New Creator Route
-router.get('/new', (req, res) => {
-    res.render('creators/new', { creator: new Creator() })
 })
 
 // Create Creator Route
@@ -77,8 +73,13 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
     }
 })
 
+// New Creator Route
+router.get('/new', auth, (req, res) => {
+    res.render('creators/new', { creator: new Creator() })
+})
+
 // Show Creator Route
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const creator = await Creator.findById(req.params.id)
         const videos = await Video.find({ creator: creator.id }).limit(6).exec()
@@ -92,7 +93,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Edit Creator Route
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
     try {
         const creator = await Creator.findById(req.params.id)
         res.render('creators/edit', { creator: creator })
@@ -127,7 +128,7 @@ router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
 })
 
 // Delete Creator Route
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     let creator
     try {
         creator = await Creator.findById(req.params.id)
@@ -141,6 +142,12 @@ router.delete('/:id', async (req, res) => {
         }
     }
 })
+
+router.get('/*', async (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
+})
+
+
 function removeCreatorThumbnail(fileName){
     fs.unlink(path.join(uploadPath, fileName), err => {
         if (err) console.log(err)

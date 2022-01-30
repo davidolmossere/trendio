@@ -1,8 +1,52 @@
-<h2>Recently Added</h2>
-<div>
-  <% videos.forEach(video => { %>
-    <a href="/videos/<%= video.id %>">
-      <img height="150" width="100" src="<%= video.thumbnailPath %>">
+<div class="home-grid part1">
+  <% for (let i = 0; i < 6; i++) { %>
+    <a class="home-video-box" href="">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+          <div class="home-video-title"><%= videos[i].setTitle %></div>
+        </div>
+        <div class="flip-card-back">
+          <div class="flip-card-back-wrapper">
+            <h1><%= videos[i].setTitle %></h1>
+            <p><%= videos[i].creator %></p>
+            <p><%= videos[i].products[0] %></p>
+          </div>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+<div class="tops-block">
+  <div class="tops-header-wrapper">
+    <div class="tops-header">Top 10</div>
+  </div>
+  <a class="tops-item" href="">
+    <img  src="/media/home/top10-eye.jpeg">
+    <div class="tops-label">Eye</div>
+  </a>
+  <a class="tops-item" href="">
+    <img  src="/media/home/top10-lips.jpeg">
+    <div class="tops-label">Lips</div>
+  </a>
+  <a class="tops-item" href="">
+    <img  src="/media/home/top10-skin.jpeg">
+    <div class="tops-label">Skin</div>
+  </a>
+</div>
+<div class="home-grid part2">
+  <% for (let i = 2; i < 8; i++) { %>
+    <a class="home-video-box" href="">
+        <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+        <div class="home-video-title"><%= videos[i].setTitle %></div>
+      </a>
+  <% } %>
+</div>
+<div class="home-creators">
+  <% creators.forEach(creator => { %>
+    <a href="">
+      <div class="home-creator-pic"><img  src="<%= creator.thumbnailPath %>"></div>
+      <div class="home-creator-label"><%= creator.name %></div>
     </a>
   <% }) %>
 </div>

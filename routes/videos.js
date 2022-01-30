@@ -3,6 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
+const auth = require('../middleware/auth')
 
 const Video = require('../models/video')
 const Category = require('../models/category')
@@ -22,7 +23,7 @@ const upload = multer({
 })
 
 // All Video Route
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let query = Video.find()
     if (req.query.setTitle != null && req.query.setTitle != '') {
         query = query.regex('setTitle', new RegExp(req.query.setTitle, 'i'))
@@ -43,7 +44,7 @@ router.get('/', async (req, res) => {
 })
 
 // New Video Route
-router.get('/new', async (req, res) => {
+router.get('/new', auth, async (req, res) => {
     renderNewPage(res, new Video())
 })
 
@@ -80,7 +81,7 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
 })
 
 // Show Video Route
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const video = await Video.findById(req.params.id).populate('creator').exec()
         const categories = await Category.find({})
@@ -96,7 +97,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Edit Video Route
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
     try {
         const video = await Video.findById(req.params.id)
         renderEditPage(res, video)
@@ -154,7 +155,7 @@ router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
 })
 
 // Delete Video Route
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     let video
     try {
         video = await Video.findById(req.params.id)
@@ -207,5 +208,9 @@ async function renderFormPage(res, video, form, hasError = false) {
       res.redirect('/videos')
     }
 }
+
+router.get('*', async (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
+})
 
 module.exports = router

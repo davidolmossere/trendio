@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.full-video-container {
+    height: 100vh;
+    width: 100vw;
+}
+.full-video-container video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.fourofour-bubble {
+    background: rgb(108,101,250);
+    position: absolute;
+    bottom: 15%;
+    left: 10%;
+    border-radius: 90%;
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    opacity: 0;
+}
+.fourofour-bubble-wrapper {
+    color: white;
+    font-weight: 100;
+    font-family: 'Raleway';
+    display: inline-block;
+}
+.fourofour-bubble h1 {
+    font-size: 2em;
+    margin-top: 0;
+    font-weight: 100;
+}
+.fourofour-bubble p {
+    font-size: 1.2em;
+    margin: .3em 0;
+}
+.fourofour-bubble a {
+    color: white;
+}
+.fourofour-bubble {
+    animation: bubble-intro linear .5s forwards;
+    animation-delay: 6s;
+}
+@keyframes bubble-intro {
+    0%   {opacity: 0;}
+    100%  {opacity: 1;}
+}
+#fourofour-page .header-logo {
+    text-decoration: none;
+    height: 32px;
+    margin-left: 1em;
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 20px;    
+}
+#fourofour-page .header-logo img {
+    height: 100%;
+}

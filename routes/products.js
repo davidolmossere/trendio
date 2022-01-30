@@ -3,6 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
+const auth = require('../middleware/auth')
 
 const Category = require('../models/category')
 const Product = require('../models/product')
@@ -18,7 +19,7 @@ const upload = multer({
 })
 
 // All Product Route
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let query = Product.find()
     if (req.query.prodTitle != null && req.query.prodTitle != '') {
         query = query.regex('prodTitle', new RegExp(req.query.prodTitle, 'i'))
@@ -39,7 +40,7 @@ router.get('/', async (req, res) => {
 })
 
 // New Product Route
-router.get('/new', async (req, res) => {
+router.get('/new', auth, async (req, res) => {
     renderNewPage(res, new Product())
 })
 
@@ -87,7 +88,7 @@ router.post('/', upload.single('thumbnailName'), async (req, res) => {
 })
 
 // Show Product Route
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id).exec()
         const categories = await Category.find({})
@@ -103,7 +104,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Edit Product Route
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
         renderEditPage(res, product)
@@ -156,7 +157,7 @@ router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
 })
 
 // Delete Product Route
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     let product
     try {
         product = await Product.findById(req.params.id)
@@ -207,5 +208,9 @@ async function renderFormPage(res, product, form, hasError = false) {
       res.redirect('/products')
     }
 }
+
+router.get('*', async (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
+})
 
 module.exports = router

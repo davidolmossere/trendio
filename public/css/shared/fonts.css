@@ -9,3 +9,8 @@
     font-weight: 200;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Antonio';
+    src: url("../../fonts/Antonio-VariableFont_wght.ttf") format("truetype");
+}
