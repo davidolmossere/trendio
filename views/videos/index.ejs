@@ -32,8 +32,8 @@
                 <td class="pos-label"><%= video.position ? video.position : '-' %></td>
                 <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="/<%= video.thumbnailBasePath %>/<%= video.thumbnailName %>" /></td>
                 <td class="left-align"><%= video.setTitle  %></td>
-                <td class="left-align"><%= video.category.name %></td>
-                <td><%= video.creator.name %></td>
+                <td class="left-align"><%= video.category_info.name %></td>
+                <td><%= video.creator_info.name %></td>
                 <td><% if (video.visibility) { %>
                     <i class="fas fa-check purple small"></i>
                     <% } %>
