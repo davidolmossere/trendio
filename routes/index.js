@@ -6,13 +6,15 @@ const Video = require('../models/video')
 const Creator = require('../models/creator')
 
 router.get('/', async (req, res) => {
-    let videos
     let creators
+    let videos
     try {
       creators = await Creator.find({})
-      videos = await Video.find().sort({ createdAt: 'desc' }).limit(10).exec()
+      videos = await Video.find().sort({ createdAt: 'desc' }).populate('creator products').exec()
+      // videos = await Video.find().sort({ createdAt: 'desc' }).limit(10).exec()
     } catch {
       videos = []
+      console.log('failed populating videos')
     }
     res.render('index', { 
       layout: 'layouts/public-layout',

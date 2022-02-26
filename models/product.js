@@ -84,5 +84,11 @@ productSchema.virtual('thumbnailPath').get(function() {
     }
 })
 
+productSchema.virtual('videos', {
+    ref: 'Video',
+    localField: '_id',
+    foreignField: 'products'
+})
+
 module.exports = mongoose.model('Product', productSchema)
 module.exports.thumbnailBasePath = thumbnailBasePath

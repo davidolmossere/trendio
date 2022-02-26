@@ -24,23 +24,59 @@ const upload = multer({
 
 // All Video Route
 router.get('/', auth, async (req, res) => {
-    let query = Video.find()
-    if (req.query.setTitle != null && req.query.setTitle != '') {
-        query = query.regex('setTitle', new RegExp(req.query.setTitle, 'i'))
-    }
-    try {
-        const categories = await Category.find({})
-        const creators = await Creator.find({})
-        const videos = await query.exec()
+    let match = {}
+    const term = req.query.search != null ? req.query.search : ''
+
+    // Populate doesn't come handy here.
+    Video.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category_info",
+            },
+        },
+        {
+            "$unwind": "$category_info"
+        },
+        {
+            $lookup: {
+                from: "creators",
+                localField: "creator",
+                foreignField: "_id",
+                as: "creator_info",
+            },
+        },
+        {
+            "$unwind": "$creator_info"
+        },
+        { 
+            $addFields: {
+                thumbnailBasePath: Video.thumbnailBasePath
+            }
+        },
+        { 
+            $match: {
+                $or: [
+                    { setTitle: new RegExp(term, "i") },
+                    { "category_info.name": new RegExp(term, "i") },
+                    { "creator_info.name": new RegExp(term, "i") }
+                ]
+            }
+        }
+    ])
+    .sort({position:'asc'})
+    .then((videos) => {
+        console.log(videos)
         res.render('videos/index', {
             videos: videos,
-            categories: categories,
-            creators: creators,
             searchOptions: req.query
         })
-    } catch {
+    }).catch (e => {
+        console.log(e)
         res.redirect('/')
-    }
+    })
 })
 
 // New Video Route
@@ -172,6 +208,24 @@ router.delete('/:id', auth, async (req, res) => {
         }
     }
 })
+
+// Show Shuffle Route
+router.post('/shuffle', auth, async (req, res) => {
+    req.body.forEach(posListItem => {
+        const video = Video.updateOne({ 
+            _id: posListItem.index
+        }, {
+            $set: { 
+                position: posListItem.newPos,
+            }
+        }).then((result) => {
+            res.status(200)
+        }).catch((error) => {
+            console.log(error)
+        })
+    })
+})
+
 function removeVideoThumbnail(fileName){
     fs.unlink(path.join(uploadPath, fileName), err => {
         if (err) console.log(err)

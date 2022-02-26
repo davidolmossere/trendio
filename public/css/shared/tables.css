@@ -1,6 +1,7 @@
 :root {
-    --color-row-even: #F8F8F8;
-    --color-row-hover: #EEE;
+    --color-row-even: #F8F8F833;
+    --color-row-hover: #EEEEEE88;
+    --color-row-over: #CCCCCC88;
     --color-line: #CCC;
 }
 .full-cell {
@@ -29,4 +30,10 @@ tbody tr:nth-child(2n) {
 }
 tbody tr:hover {
     background-color: var(--color-row-hover);
+}
+tbody tr.dragging {
+    background-color: var(--color-row-over);
+}
+.draggable {
+    cursor: move;
 }

@@ -1,18 +1,43 @@
 <div class="home-grid part1">
-  <% for (let i = 0; i < 6; i++) { %>
+  <div class="home-video-box top-video">
+    <div class="top-video-wrapper">
+      <video controls width="250">
+        <source src="<%= videos[0].videoPath %>">
+      </video>
+      <div class="home-video-title"><%= videos[0].setTitle %></div>
+    </div>
+    <div class="home-prod-wrapper">
+      <div class="home-prod-inner-wrapper">
+        <div class="home-prod-brandandtitle">
+          <div class="home-prod-brand"><%= videos[0].products[0].brand %></div>
+          <div class="home-prod-prodTitle"><%= videos[0].products[0].prodTitle %></div>
+        </div>
+        <img src="<%= videos[0].products[0].thumbnailPath %>" />
+        <div class="home-btn-box">
+          <a class="btn btn-primary" href="<%= videos[0].products[0].productUrl %>">Buy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% for (let i = 1; i < 4; i++) { %>
     <a class="home-video-box" href="">
       <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
-          <div class="home-video-title"><%= videos[i].setTitle %></div>
-        </div>
-        <div class="flip-card-back">
-          <div class="flip-card-back-wrapper">
-            <h1><%= videos[i].setTitle %></h1>
-            <p><%= videos[i].creator %></p>
-            <p><%= videos[i].products[0] %></p>
+          <div class="flip-card-front">
+            <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+            <div class="home-video-title"><%= videos[i].setTitle %></div>
           </div>
-        </div>
+          <div class="flip-card-back">
+            <div class="flip-card-back-wrapper">
+              <div class="home-prod-text">
+                <h1><%= videos[i].products[1].prodTitle %></h1>
+                <p><%= videos[i].creator.name %></p>
+              </div>
+              <div class="home-prod-pic">
+                <img src="<%= videos[i].products[1].thumbnailPath %>" />
+                <i class="far fa-play-circle"></i>
+              </div>
+            </div>
+          </div>
       </div>
     </a>
   <% } %>
@@ -35,11 +60,101 @@
   </a>
 </div>
 <div class="home-grid part2">
-  <% for (let i = 2; i < 8; i++) { %>
+  <% for (let i = 5; i < 11; i++) { %>
     <a class="home-video-box" href="">
-        <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
-        <div class="home-video-title"><%= videos[i].setTitle %></div>
-      </a>
+      <% if ( i == 2 || i == 3 || i == 6) { %>
+      <div class="nonflip-card-back">
+        <div class="flip-card-back-wrapper">
+          <div class="home-prod-text">
+            <h1><%= videos[i].products[1].prodTitle %></h1>
+            <p><%= videos[i].creator.name %></p>
+          </div>
+          <div class="home-prod-pic">
+            <img src="<%= videos[i].products[1].thumbnailPath %>" />
+            <i class="far fa-play-circle"></i>
+          </div>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+          <div class="home-video-title"><%= videos[i].setTitle %></div>
+        </div>
+        <div class="flip-card-back">
+          <div class="flip-card-back-wrapper">
+            <div class="home-prod-text">
+              <h1><%= videos[i].products[1].prodTitle %></h1>
+              <p><%= videos[i].creator.name %></p>
+            </div>
+            <div class="home-prod-pic">
+              <img src="<%= videos[i].products[1].thumbnailPath %>" />
+              <i class="far fa-play-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </a>
+  <% } %>
+</div>
+
+<div class="home-grid">
+  <% for (let i = 11; i < 14; i++) { %>
+    <a class="home-video-box" href="">
+      <div class="nonflip-card-back">
+        <div class="flip-card-back-wrapper">
+          <div class="home-prod-text">
+            <h1><%= videos[i].products[1].prodTitle %></h1>
+            <p><%= videos[i].creator.name %></p>
+          </div>
+          <div class="home-prod-pic">
+            <img src="<%= videos[i].products[1].thumbnailPath %>" />
+            <i class="far fa-play-circle"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<div class="home-grid part3">
+  <% for (let i = 15; i < 21; i++) { %>
+    <a class="home-video-box" href="">
+      <% if ( i == 4 || i == 6) { %>
+        <div class="nonflip-card-back">
+          <div class="flip-card-back-wrapper">
+            <div class="home-prod-text">
+              <h1><%= videos[i].products[1].prodTitle %></h1>
+              <p><%= videos[i].creator.name %></p>
+            </div>
+            <div class="home-prod-pic">
+              <img src="<%= videos[i].products[1].thumbnailPath %>" />
+              <i class="far fa-play-circle"></i>
+            </div>
+          </div>
+        </div>
+        <% } else { %>        
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+            <div class="home-video-title"><%= videos[i].setTitle %></div>
+          </div>
+          <div class="flip-card-back">
+            <div class="flip-card-back-wrapper">
+              <div class="home-prod-text">
+                <h1><%= videos[i].products[1].prodTitle %></h1>
+                <p><%= videos[i].creator.name %></p>
+              </div>
+              <div class="home-prod-pic">
+                <img src="<%= videos[i].products[1].thumbnailPath %>" />
+                <i class="far fa-play-circle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </a>
   <% } %>
 </div>
 <div class="home-creators">
@@ -49,4 +164,62 @@
       <div class="home-creator-label"><%= creator.name %></div>
     </a>
   <% }) %>
+</div>
+<div class="home-grid">
+  <% for (let i = 1; i < 4; i++) { %>
+    <a class="home-video-box" href="">
+      <div class="nonflip-card-back">
+        <div class="flip-card-back-wrapper">
+          <div class="home-prod-text">
+            <h1><%= videos[i].products[1].prodTitle %></h1>
+            <p><%= videos[i].creator.name %></p>
+          </div>
+          <div class="home-prod-pic">
+            <img src="<%= videos[i].products[1].thumbnailPath %>" />
+            <i class="far fa-play-circle"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<div class="home-grid part3">
+  <% for (let i = 2; i < 8; i++) { %>
+    <a class="home-video-box" href="">
+      <% if ( i == 4 || i == 6) { %>
+        <div class="nonflip-card-back">
+          <div class="flip-card-back-wrapper">
+            <div class="home-prod-text">
+              <h1><%= videos[i].products[1].prodTitle %></h1>
+              <p><%= videos[i].creator.name %></p>
+            </div>
+            <div class="home-prod-pic">
+              <img src="<%= videos[i].products[1].thumbnailPath %>" />
+              <i class="far fa-play-circle"></i>
+            </div>
+          </div>
+        </div>
+        <% } else { %>        
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img  src="uploads/thumbnails/videos/<%= videos[i].thumbnailName %>">
+            <div class="home-video-title"><%= videos[i].setTitle %></div>
+          </div>
+          <div class="flip-card-back">
+            <div class="flip-card-back-wrapper">
+              <div class="home-prod-text">
+                <h1><%= videos[i].products[1].prodTitle %></h1>
+                <p><%= videos[i].creator.name %></p>
+              </div>
+              <div class="home-prod-pic">
+                <img src="<%= videos[i].products[1].thumbnailPath %>" />
+                <i class="far fa-play-circle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </a>
+  <% } %>
 </div>

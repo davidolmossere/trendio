@@ -54,6 +54,7 @@ videoSchema.virtual('thumbnailPath').get(function() {
       return path.join('/', thumbnailBasePath, this.thumbnailName)
     }
 })
+
 videoSchema.virtual('videoPath').get(function() {
     if (this.videoFileName != null) {
       return path.join('/', videoBasePath, this.videoFileName)

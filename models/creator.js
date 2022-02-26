@@ -6,8 +6,7 @@ const Video = require('./video')
 const creatorSchema = new mongoose.Schema({
     name: { 
         type: String, 
-        required: true,
-        lowercase: true
+        required: true
     },
     createdAt: {
         type: Date,
@@ -17,6 +16,12 @@ const creatorSchema = new mongoose.Schema({
     thumbnailName: {
         type: String
     }
+})
+
+creatorSchema.virtual('videos', {
+    ref: 'Video',
+    localField: '_id',
+    foreignField: 'creator'
 })
 
 creatorSchema.virtual('thumbnailPath').get(function() {

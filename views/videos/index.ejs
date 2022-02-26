@@ -6,7 +6,7 @@
     <form action="/videos" method="GET">
         <div class="form-row form-row-bundle">
             <div class="form-item">
-                <input type="text" placeholder="enter a video name" name="name" value="<%= searchOptions.name %>">
+                <input type="text" placeholder="enter a video name" name="search" value="<%= searchOptions.search %>">
             </div>
             <button class="btn btn-secondary" type="submit">Search</button>
         </div>
@@ -26,32 +26,23 @@
                 <th>view</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="draggable-list" class="draggable-list">
             <% videos.forEach(video => { %>
-            <tr>
-                <td><%= video.position ? video.position : '-' %></td>
-                <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="<%= video.thumbnailPath %>" /></td>
+            <tr class="draggable" draggable="true" data-index="<%= video._id %>">
+                <td class="pos-label"><%= video.position ? video.position : '-' %></td>
+                <td class="left-align full-cell"><img class="thumbnail" width="60" height="60" src="/<%= video.thumbnailBasePath %>/<%= video.thumbnailName %>" /></td>
                 <td class="left-align"><%= video.setTitle  %></td>
-                <td class="left-align"><% categories.forEach(category => { %>
-                    <% if (category.id == video.category) { %>
-                        <%= category.name %>
-                      <% } %>
-                    <% }) %>
-                </td>
-                <td><% creators.forEach(creator => { %>
-                    <% if (creator.id == video.creator) { %>
-                        <%= creator.name %>
-                      <% } %>
-                    <% }) %>
-                </td>
+                <td class="left-align"><%= video.category.name %></td>
+                <td><%= video.creator.name %></td>
                 <td><% if (video.visibility) { %>
                     <i class="fas fa-check purple small"></i>
                     <% } %>
                 </td>
                 <td><a href="/videos/<%= video.id %>/edit"><i class="far fa-edit"></i></a></td>
                 <td><a href="/videos/<%= video.id %>"><i class="far fa-eye"></i></a></td>
+                <td><i class="fas fa-grip-lines"></i></td>
+            </tr>
             <% }); %>
-        
         </tbody>
     </table>
 </div>
@@ -60,3 +51,4 @@
         <i class="fas fa-plus-circle"></i> add a video
     </a>
 </div>
+<script src="/js/videos.js"></script>

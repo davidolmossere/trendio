@@ -26,7 +26,8 @@ header > * {
 .primary-header {
     justify-content: space-between;
     align-items: center;
-    margin: 0 3%;
+    margin: 15px auto 25px;
+    max-width: 1200px;
 }
 nav ul {
     list-style: none;
