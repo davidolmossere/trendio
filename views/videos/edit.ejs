@@ -1,6 +1,6 @@
 <h2>Edit video</h2>
 <div class="content-block">
-    <form action="/videos/<%= video.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <form action="/videos/<%= video.id %>?_method=PUT" method="POST">
         <%- include('_form_fields') %>
         <div class="form-row form-row-end btn-row">
             <a class="btn btn-secondary" href="/videos">Cancel</a>

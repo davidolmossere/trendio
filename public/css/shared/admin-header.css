@@ -40,12 +40,12 @@ nav ul {
     top: 1.5em;
     right: 0;
     padding: 0.65rem;
+    border: 1px solid #CCC;
 }
 .primary-submenu > li {
     padding: 0.3rem 0 0.3rem 0.3rem;
     text-align: right;
     white-space: nowrap;
-    border-bottom: 1px solid #333;
 }
 .primary-submenu[data-visible="false"] {
     display: none;

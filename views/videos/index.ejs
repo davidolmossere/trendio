@@ -6,7 +6,7 @@
     <form action="/videos" method="GET">
         <div class="form-row form-row-bundle">
             <div class="form-item">
-                <input type="text" placeholder="enter a video name" name="search" value="<%= searchOptions.search %>">
+                <input type="text" placeholder="video / creator / category" name="search" value="<%= searchOptions.search %>">
             </div>
             <button class="btn btn-secondary" type="submit">Search</button>
         </div>
@@ -16,11 +16,43 @@
     <table>
         <thead>
             <tr>
-                <th>Position</th>
+                <th>
+                    <a href="/videos?sort=position&order=<%= (sortParam == 'position' && orderParam == 'asc') ? 'desc' : 'asc' %>&skip=<%= skip %>&limit=<%= limit %>"
+                        class="sort
+                            <%= sortParam == 'position' ? ' sorting' : '' %>
+                            <%= (sortParam == 'position' && orderParam == 'asc') ? ' asc' : '' %>
+                            <%= (sortParam == 'position' && orderParam == 'desc') ? ' desc' : '' %>">
+                            Order
+                    </a>
+                </th>
                 <th class="full-cell">&nbsp;</th>
-                <th class="left-align">Title</th>
-                <th class="left-align">Category</th>
-                <th>Creator</th>
+                <th class="left-align">
+                    <a href="/videos?sort=setTitle&order=<%= (sortParam == 'setTitle' && orderParam == 'asc') ? 'desc' : 'asc' %>&skip=<%= skip %>&limit=<%= limit %>"
+                        class="sort
+                            <%= sortParam == 'setTitle' ? ' sorting' : '' %>
+                            <%= (sortParam == 'setTitle' && orderParam == 'asc') ? ' asc' : '' %>
+                            <%= (sortParam == 'setTitle' && orderParam == 'desc') ? ' desc' : '' %>">
+                        Title 
+                    </a>
+                </th>
+                <th class="left-align">
+                    <a href="/videos?sort=category&order=<%= (sortParam == 'category_info.name' && orderParam == 'asc') ? 'desc' : 'asc' %>&skip=<%= skip %>&limit=<%= limit %>"
+                        class="sort
+                            <%= sortParam == 'category_info.name' ? ' sorting' : '' %>
+                            <%= (sortParam == 'category_info.name' && orderParam == 'asc') ? ' asc' : '' %>
+                            <%= (sortParam == 'category_info.name' && orderParam == 'desc') ? ' desc' : '' %>">
+                        Category
+                    </a>
+                </th>
+                <th>
+                    <a href="/videos?sort=creator&order=<%= (sortParam == 'creator_info.name' && orderParam == 'asc') ? 'desc' : 'asc' %>&skip=<%= skip %>&limit=<%= limit %>"
+                        class="sort
+                            <%= sortParam == 'creator_info.name' ? ' sorting' : '' %>
+                            <%= (sortParam == 'creator_info.name' && orderParam == 'asc') ? ' asc' : '' %>
+                            <%= (sortParam == 'creator_info.name' && orderParam == 'desc') ? ' desc' : '' %>">
+                        Creator
+                    </a>
+                </th>
                 <th>Visible</th>
                 <th>edit</th>
                 <th>view</th>
@@ -38,13 +70,17 @@
                     <i class="fas fa-check purple small"></i>
                     <% } %>
                 </td>
-                <td><a href="/videos/<%= video.id %>/edit"><i class="far fa-edit"></i></a></td>
-                <td><a href="/videos/<%= video.id %>"><i class="far fa-eye"></i></a></td>
+                <td><a href="/videos/<%= video._id %>/edit"><i class="far fa-edit"></i></a></td>
+                <td><a href="/videos/<%= video._id %>"><i class="far fa-eye"></i></a></td>
                 <td><i class="fas fa-grip-lines"></i></td>
             </tr>
             <% }); %>
         </tbody>
     </table>
+    <div class="table-tools">
+        <%- include('../partials/page-size') %>
+        <%- include('../partials/pager') %>
+    </div>    
 </div>
 <div class="new-item">
     <a href="/videos/new">
@@ -52,3 +88,4 @@
     </a>
 </div>
 <script src="/js/videos.js"></script>
+<script src="/js/pager.js"></script>

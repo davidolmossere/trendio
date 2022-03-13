@@ -1,0 +1,38 @@
+<div class="page-size">
+    <div class="selectmenu-value" >
+        <%= limit %>
+    </div>
+    <button class="selectmenu-toggle" type="button">
+        <span>Select</span>
+    </button>
+    <div class="selectmenu-items">
+        <ul>
+            <li>
+                <div class="selectmenu-item">
+                    <a class="selectmenu-item-action" 
+                    href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=0&limit=20">20</a>
+                </div>
+            </li><li>
+                <div class="selectmenu-item">
+                    <a class="selectmenu-item-action" 
+                    href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=0&limit=30">30</a>
+                </div>
+            </li><li>
+                <div class="selectmenu-item">
+                    <a class="selectmenu-item-action" 
+                    href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=0&limit=50">50</a>
+                </div>
+            </li><li>
+                <div class="selectmenu-item">
+                    <a class="selectmenu-item-action" 
+                    href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=0&limit=100">100</a>
+                </div>
+            </li><li>
+                <div class="selectmenu-item">
+                    <a class="selectmenu-item-action" 
+                    href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=<%= skip %>&limit=200">200</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

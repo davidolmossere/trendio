@@ -1,28 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
-const sharp = require('sharp')
+
 const path = require('path')
 const fs = require('fs')
+const crypto = require('crypto');
 const auth = require('../middleware/auth')
 
 const Creator = require('../models/creator')
 const Video = require('../models/video')
 
 const uploadPath = path.join('public', Creator.thumbnailBasePath)
-const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, uploadPath)
-    }
-})
-const upload = multer({
-    fileFilter: (req, file, callback) => {
-        callback(null, imageMimeTypes.includes(file.mimetype))
-    }, 
-    storage: storage
-})
 
 // All Creators Route
 router.get('/', auth, async (req, res) => {
@@ -42,17 +29,12 @@ router.get('/', auth, async (req, res) => {
 })
 
 // Create Creator Route
-router.post('/', upload.single('thumbnailName'), async (req, res) => {
-    const { filename: thumbnailName } = req.file;
-    // await sharp(req.file.path)
-    // .resize({ width: 250, height: 250 })
-    // .jpeg()
-    // .toFile(
-    //     path.resolve(req.file.destination,'resized',thumbnailName)
-    // )
-    // fs.unlinkSync(req.file.path)
-    
-    const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
+    const {name,createdAt, filepond} = req.body
+    const fileName = filepond != null ? crypto.randomUUID() : 'default.jpg' 
+    if (filepond != null) {
+        saveImage(fileName,filepond)
+    }
     const creator  = new Creator({
         name: req.body.name,
         createdAt: req.body.createdAt,
@@ -103,9 +85,13 @@ router.get('/:id/edit', auth, async (req, res) => {
 })
 
 // Update Creator Route
-router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
+router.put('/:id', async (req, res) => {
+    const filepond = req.body.filepond
+    const fileName = filepond != null ? crypto.randomUUID() : 'default.jpg' 
+    if (filepond != null) {
+        saveImage(fileName,filepond)
+    }
     let creator
-    const fileName = req.file != null ? req.file.filename : null 
     try {
         creator = await Creator.findById(req.params.id)
         creator.name = req.body.name
@@ -147,7 +133,21 @@ router.get('/*', async (req, res) => {
   res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
 })
 
-
+function saveImage(fileName,imgEncoded) {
+    if (imgEncoded == null) return;
+    const pathToSave = uploadPath + "/" + fileName
+    const img = JSON.parse(imgEncoded);
+    if (img != null) {
+        imgBuffered = new Buffer.from(img.data, "base64");
+        fs.writeFile( pathToSave, imgBuffered, function (err) {
+            if (err) {
+                console.log("An error occurred while writing to File.");
+                return console.log(err);
+            }
+        });
+    }
+}
+  
 function removeCreatorThumbnail(fileName){
     fs.unlink(path.join(uploadPath, fileName), err => {
         if (err) console.log(err)

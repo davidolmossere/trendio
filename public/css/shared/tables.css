@@ -3,6 +3,7 @@
     --color-row-hover: #EEEEEE88;
     --color-row-over: #CCCCCC88;
     --color-line: #CCC;
+    --color-sorting: #333333;
 }
 .full-cell {
     padding: 0;
@@ -17,6 +18,12 @@ th {
     padding: 1em .3em;
     font-size:.9em;
     text-align: center;
+}
+th a {
+    text-decoration: none;
+}
+th a.sorting {
+    font-weight: bold;
 }
 td {
     padding: 0 .3em;
@@ -36,4 +43,185 @@ tbody tr.dragging {
 }
 .draggable {
     cursor: move;
+}
+.sort:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--color-line);
+    content: "\f309";
+    margin-left: 5px;
+}
+.sort.asc:after {
+    content: "\f30C";
+}
+.sort.sorting:after {
+    color: var(--color-sorting);
+}
+.page-size {
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    box-shadow: none;
+    color: #303030;
+    font-size: 1rem;
+    font-weight: 400;
+    height: auto;
+    line-height: 1;
+    padding: 0.4rem 0.4rem 0.4rem 0.6rem;
+    transition: border-color .1s linear;
+    vertical-align: baseline;
+    width: auto;
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    width: auto;
+    z-index: 1;
+}
+.selectmenu-value {
+    display: inline-block;
+    border: 0;
+    margin: 0;
+    width: 4rem;
+    line-height: normal;
+}
+.selectmenu-toggle {
+    padding-right: 2rem;
+    background: transparent;
+    border-width: 0;
+    bottom: 0;
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+}
+.page-size button {
+    background: #e3e3e3;
+    border-color: #adadad;
+    color: #514943;
+
+}
+.page-size button span {
+    display: none;
+}
+.selectmenu-toggle:before {
+    background: #e3e3e3;
+    border-left: 1px solid var(--color-line);
+    bottom: 0;
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2.4rem;
+}
+.selectmenu-toggle:after {
+    border-color: #000 transparent transparent transparent;
+    border-style: solid;
+    border-width: 0.4rem 0.3rem 0 0.3rem;
+    content: '';
+    height: 0;
+    margin-top: -0.2rem;
+    position: absolute;
+    right: 0.9rem;
+    top: 50%;
+    transition: all .2s linear;
+    width: 0;
+}
+.selectmenu-toggle._active:after,
+.selectmenu-toggle.active:after {
+    transform: rotate(180deg);
+}
+._active .selectmenu-toggle:after,
+.active .selectmenu-toggle:after {
+    transform: rotate(180deg);
+}
+.selectmenu-items {
+    background: #fff;
+    border: 1px solid #007bdb;
+    box-shadow: 1px 1px 5px rgb(0 0 0 / 50%);
+    display: none;
+    float: left;
+    left: -1px;
+    margin-top: 3px;
+    position: absolute;
+    top: 100%;
+}
+.selectmenu-items._active {
+    display: block;
+}
+.selectmenu-items ul {
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    min-width: 100%;
+    padding: 0;
+}
+.selectmenu-items li {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    transition: background .2s linear;
+}
+.selectmenu-item {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+.selectmenu-item-action {
+    background: transparent;
+    border: 0;
+    color: #41362f;
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    min-width: 100%;
+    padding: 1rem 4rem 1rem 1rem;
+    text-align: left;
+    transition: background .2s linear;
+    width: 4rem;
+    text-decoration: none;
+}
+.pager-counter {
+    background-color: white;
+    border-radius: 3px;
+    display: inline-block;
+    border: 1px solid var(--color-line);
+}
+.pager-counter a {
+    text-decoration: none;
+    padding: 1rem .5rem;
+}
+.pager-counter .all-pages {
+    padding: .4rem 1.5rem;
+    display: inline-block;
+}
+.pager-counter a.previous-page {
+    padding: .4rem .7rem .4rem .8rem;
+    border-right: 1px solid var(--color-line);
+}
+.pager-counter a.next-page {
+    padding: .4rem .8rem .4rem .7rem;
+    border-left: 1px solid var(--color-line);
+}
+.pager-counter a:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--color-line);
+}
+.pager-counter a.previous-page:before {
+    content: "\f104";
+}
+.pager-counter a.next-page:before {
+    content: "\f105";
+}
+.table-tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 3rem 0 2rem;
 }

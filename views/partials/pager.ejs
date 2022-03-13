@@ -1,0 +1,19 @@
+<% 
+    let currentPage = Math.floor(parseInt(skip) / parseInt(limit)) + 1;
+    let lastPage = Math.ceil(parseInt(itemsCount) / parseInt(limit));
+%>
+<% if (lastPage > 1) { %>
+    <div class="pager-counter">
+    <% if (currentPage > 1) { %>
+        <a class="previous-page" 
+            href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=<%= parseInt(skip) - parseInt(limit) %>&limit=<%= limit %>"></a>
+    <% } %>
+    <% if (lastPage > 1) { %>
+        <span class="all-pages"><%= currentPage %>  of <%= lastPage %></span>
+    <% } %>
+    <% if (currentPage < lastPage) { %>
+        <a class="next-page"
+            href="/videos?sort=<%= sortParam %>&order=<%= orderParam %>&skip=<%= parseInt(skip) + parseInt(limit) %>&limit=<%= limit %>"></a>
+    <% } %>
+    </div>
+<% } %>

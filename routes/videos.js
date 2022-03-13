@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
+
 const path = require('path')
 const fs = require('fs')
+const crypto = require('crypto');
 const auth = require('../middleware/auth')
 
 const Video = require('../models/video')
@@ -11,22 +12,22 @@ const Creator = require('../models/creator')
 const Product = require('../models/product')
 
 const uploadPath = path.join('public', Video.thumbnailBasePath)
-const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
-const upload = multer({
-    dest: uploadPath,
-    limits: {
-        fileSize: 2000000
-    },
-    fileFilter: (req, file, callback) => {
-        callback(null, imageMimeTypes.includes(file.mimetype))
-    }
-})
 
 // All Video Route
 router.get('/', auth, async (req, res) => {
-    let match = {}
-    const term = req.query.search != null ? req.query.search : ''
+    let orderParam = req.query.order == null ? 'asc' : req.query.order
+    let sortParam = req.query.sort == null ? 'position' : req.query.sort
+    let limit = req.query.limit == null ? 50 : parseInt(req.query.limit)
+    let skip = req.query.skip == null ? 0 : parseInt(req.query.skip)
+    let itemsCount = await Video.find().count()
 
+    if (req.query.sort == 'creator' || req.query.sort == 'category') {
+        sortParam = req.query.sort + '_info.name'
+    }
+
+    let sort = {[sortParam]: orderParam}
+    const term = req.query.search != null ? req.query.search : ''
+   
     // Populate doesn't come handy here.
     Video.aggregate([
         {
@@ -64,14 +65,20 @@ router.get('/', auth, async (req, res) => {
                     { "creator_info.name": new RegExp(term, "i") }
                 ]
             }
-        }
+        },
     ])
-    .sort({position:'asc'})
+    .sort(sort)
+    .skip(skip)
+    .limit(limit)
     .then((videos) => {
-        console.log(videos)
         res.render('videos/index', {
             videos: videos,
-            searchOptions: req.query
+            searchOptions: req.query,
+            sortParam,
+            orderParam,
+            limit,
+            skip,
+            itemsCount
         })
     }).catch (e => {
         console.log(e)
@@ -85,12 +92,15 @@ router.get('/new', auth, async (req, res) => {
 })
 
 // Create Video Route
-router.post('/', upload.single('thumbnailName'), async (req, res) => {
-    const fileName = req.file != null ? req.file.filename : 'default.jpg' 
+router.post('/', async (req, res) => {
+    const filepond = req.body.filepond
+    const fileName = filepond != null ? crypto.randomUUID() : 'default.jpg' 
+    if (filepond != null) {
+        saveImage(fileName,filepond)
+    }
     const realCat = req.body.category != '' ? req.body.category : null
     const realCreator = req.body.creator != '' ? req.body.creator : null
     const realVisibility = req.body.visibility == 'on' ? true : false
-
     const video  = new Video({
         setTitle: req.body.setTitle,
         category: realCat,
@@ -143,10 +153,14 @@ router.get('/:id/edit', auth, async (req, res) => {
 })
 
 // Update Video Route
-router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
+router.put('/:id', async (req, res) => {
+    const filepond = req.body.filepond
+    const fileName = filepond != null ? crypto.randomUUID() : 'default.jpg' 
+    if (filepond != null) {
+        saveImage(fileName,filepond)
+    }
     let video
     let transitionVidProds = []
-    const fileName = req.file != null ? req.file.filename : null
     const realVisibility = req.body.visibility == 'on' ? true : false
     try {
         video = await Video.findById(req.params.id)
@@ -174,7 +188,6 @@ router.put('/:id', upload.single('thumbnailName'), async (req, res) => {
                 video.products = req.body.products
             }
         }
-
         if (fileName != null && fileName !=='' ) {
             video.thumbnailName = fileName
         }
@@ -226,6 +239,10 @@ router.post('/shuffle', auth, async (req, res) => {
     })
 })
 
+router.get('*', async (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
+})
+  
 function removeVideoThumbnail(fileName){
     fs.unlink(path.join(uploadPath, fileName), err => {
         if (err) console.log(err)
@@ -263,8 +280,19 @@ async function renderFormPage(res, video, form, hasError = false) {
     }
 }
 
-router.get('*', async (req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '../public/' + '404.html'));
-})
+function saveImage(fileName,imgEncoded) {
+    if (imgEncoded == null) return;
+    const pathToSave = uploadPath + "/" + fileName
+    const img = JSON.parse(imgEncoded);
+    if (img != null) {
+        imgBuffered = new Buffer.from(img.data, "base64");
+        fs.writeFile( pathToSave, imgBuffered, function (err) {
+            if (err) {
+                console.log("An error occurred while writing to File.");
+                return console.log(err);
+            }
+        });
+    }
+}
 
 module.exports = router
